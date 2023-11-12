@@ -18,8 +18,7 @@ MonoBehaviour:
   m_RendererFeatures:
   - {fileID: 2638244870229357997}
   - {fileID: 6134227214019940411}
-  - {fileID: 2179021161069302913}
-  m_RendererFeatureMap: ad758440bbed9c243b50318f262721558154987733703d1e
+  m_RendererFeatureMap: ad758440bbed9c243b50318f26272155
   m_UseNativeRenderPass: 0
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
   xrSystemData: {fileID: 11400000, guid: 60e1133243b97e347b653163a8c01b64, type: 2}
@@ -71,11 +70,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2ca6e6c9ec90354780866897f0447af, type: 3}
   m_Name: PixelationRendererFeature
   m_EditorClassIdentifier: 
-  m_Active: 0
-  settings:
-    pixelationMaterial: {fileID: 2100000, guid: a44fbe0567cc43540ab303151211a0ea,
-      type: 2}
-    pixelSize: 1
+  m_Active: 1
+  settings: {pixelationMaterial: {fileID: 2100000, guid: a44fbe0567cc43540ab303151211a0ea,
+      type: 2}, pixelSize: 5}
 --- !u!114 &2638244870229357997
 MonoBehaviour:
   m_ObjectHideFlags: 0
