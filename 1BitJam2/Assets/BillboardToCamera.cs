@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BillboardSprite : MonoBehaviour
+public class BillboardToCamera : MonoBehaviour
 {
     Camera _mainCamera;
     void Start()
