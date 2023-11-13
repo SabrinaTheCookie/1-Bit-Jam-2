@@ -18,7 +18,6 @@ public class FloorBuilder : MonoBehaviour
         for (int i = 0; i < count; i++)
         {
             Floor floor = BuildFloor();
-            floor.name = $"Floor{i}";
             floors.Add(floor);
         }
 
