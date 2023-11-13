@@ -21,12 +21,14 @@ public class Floor : MonoBehaviour
         {
             //Is first floor, use spawner instead of stair up
             PlaceStairsDown(false);
+            PlaceEnemySpawner();
 
         }
         else if (_floorNumber == maxFloors - 1)
         {
             //Is last floor, replace stairs Down with loot
             PlaceStairsUp();
+            PlaceTreasurePile();
         }
         else
         {
@@ -71,6 +73,17 @@ public class Floor : MonoBehaviour
         stairUp.transform.Rotate(0,posRotPair.Item2,0);
     }
 
+    void PlaceTreasurePile()
+    {
+        treasurePile = Instantiate(treasurePile, objectHolder);
+    }
+
+    void PlaceEnemySpawner()
+    {
+        spawner = Instantiate(spawner, objectHolder);
+
+    }
+    
     public (Vector3, float) GetValidStairLocation(int side)
     {
         Vector3 stairPos = Vector3.zero;
