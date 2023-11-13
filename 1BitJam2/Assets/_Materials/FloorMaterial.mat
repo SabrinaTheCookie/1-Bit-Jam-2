@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: ToonShader
+  m_Name: FloorMaterial
   m_Shader: {fileID: -6465566751694194690, guid: f43fa7b4c6cd5b54cac1d20b0fc7f7a9,
     type: 3}
   m_ValidKeywords: []
