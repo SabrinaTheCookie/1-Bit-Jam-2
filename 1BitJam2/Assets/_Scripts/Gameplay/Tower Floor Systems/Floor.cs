@@ -23,7 +23,7 @@ public class Floor : MonoBehaviour
             PlaceStairsDown(false);
 
         }
-        else if (_floorNumber == maxFloors)
+        else if (_floorNumber == maxFloors - 1)
         {
             //Is last floor, replace stairs Down with loot
             PlaceStairsUp();
