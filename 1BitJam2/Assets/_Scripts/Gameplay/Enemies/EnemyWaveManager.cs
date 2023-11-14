@@ -77,7 +77,7 @@ public class EnemyWaveManager : MonoBehaviour
 
 
 
-    public void DropLoot(float lootAmount)
+    public void DropLoot(int lootAmount)
     {
         if (lootAmount > 0)
         {

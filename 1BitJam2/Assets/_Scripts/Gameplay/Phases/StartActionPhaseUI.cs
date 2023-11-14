@@ -12,18 +12,26 @@ public class StartActionPhaseUI : MonoBehaviour
     {
         BuildPhase.OnBuildPhaseStarted += Show;
         BuildPhase.OnBuildPhaseComplete += Hide;
+        GameColour.OnColourUpdated += ColourUpdate;
     }
     
     void OnDisable()
     {
         BuildPhase.OnBuildPhaseStarted -= Show;
         BuildPhase.OnBuildPhaseComplete -= Hide;
+        GameColour.OnColourUpdated -= ColourUpdate;
+
     }
 
     private void Awake()
     {
         image = GetComponent<Image>();
         text = GetComponentInChildren<TextMeshProUGUI>();
+    }
+
+    void ColourUpdate(Color colour)
+    {
+        image.color = colour;
     }
 
     void Show()

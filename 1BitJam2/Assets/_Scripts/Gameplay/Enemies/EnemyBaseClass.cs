@@ -13,7 +13,7 @@ public class EnemyBaseClass : ScriptableObject
 
     public float baseMovementSpeed;
 
-    public float carryCapacity;
+    public int carryCapacity;
 
     public Sprite sprite;
 }
