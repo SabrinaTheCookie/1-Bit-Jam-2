@@ -8,7 +8,6 @@ using Random = UnityEngine.Random;
 
 public class EnemyWaveManager : MonoBehaviour
 {
-    public BuildPhase buildPhase;
 
     public GameObject enemyPrefab;
     public EnemyBaseClass[] enemyTypes;
@@ -22,25 +21,26 @@ public class EnemyWaveManager : MonoBehaviour
 
     public GameObject droppedLootPrefab;
 
+    private bool hasInit;
+
+    public static event Action OnWaveComplete;
     private void OnEnable()
     {
+        enemySpawner = FindObjectOfType<EnemySpawner>();
         ActionPhase.OnActionPhaseStarted += BeginNewWave;
+        Enemy.OnEnemyDefeated += EnemyDefeated;
     }
     
     private void OnDisable()
     {
         ActionPhase.OnActionPhaseStarted -= BeginNewWave;
-    }
-
-    public void Init()
-    {
-        enemySpawner = FindObjectOfType<EnemySpawner>();
-        BeginNewWave();
+        Enemy.OnEnemyDefeated -= EnemyDefeated;
     }
 
 
     public void BeginNewWave()
     {
+        if (!enemySpawner) enemySpawner = FindObjectOfType<EnemySpawner>();
         StartCoroutine(NewWave());
         
     }
@@ -60,15 +60,19 @@ public class EnemyWaveManager : MonoBehaviour
             //enemy.SetData(enemyType);
 
             enemiesRemaining.Add(enemy);
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(ActionPhase.SecondsPerTick);
         }
     }
 
+    void EnemyDefeated(Enemy enemyDefeated)
+    {
+        enemiesRemaining.Remove(enemyDefeated);
+        if(enemiesRemaining.Count == 0) WaveComplete();
+    }
     public void WaveComplete()
     {
         enemiesRemaining.Clear();
-
-        buildPhase.BeginBuildPhase();
+        OnWaveComplete?.Invoke();
     }
 
 

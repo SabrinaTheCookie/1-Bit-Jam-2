@@ -1,5 +1,5 @@
+using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
@@ -20,6 +20,8 @@ public class Enemy : MonoBehaviour
     public Vector2 currentPosition;
     bool advancing = true;
     bool alive = true;
+
+    public static event Action<Enemy> OnEnemyDefeated;
 
 
     /* Essentially a constructor for the Enemy class, called by EnemySpawner */
@@ -56,11 +58,16 @@ public class Enemy : MonoBehaviour
 
         if (currentHealth <= 0)
         {
-            enemyWaveManager.DropLoot(currentLootHeld);
-            enemyWaveManager.enemiesRemaining.Remove(this);
-            /* Play Sound Effect or Particle ? */
-            Destroy(gameObject);
+            Defeated();
         }
+    }
+
+    private void Defeated()
+    {
+        enemyWaveManager.DropLoot(currentLootHeld);
+        OnEnemyDefeated?.Invoke(this);
+        /* Play Sound Effect or Particle ? */
+        Destroy(gameObject);
     }
 
 
@@ -83,14 +90,13 @@ public class Enemy : MonoBehaviour
     {
         /* Enemy has escaped with your gold! */
 
-        enemyWaveManager.enemiesRemaining.Remove(this);
+        //Just call enemy defeated to tell the wave manager to remove you :)
+        //You defeated them but they took yo stuff
+        OnEnemyDefeated?.Invoke(this);
         /* Play Sound Effect or Particle ? */
         Destroy(gameObject);
     }
-
-
-
-
+    
     public void ScaleMovementSpeed(float scalar)
     {
         currentMovementSpeed *= scalar;
@@ -100,10 +106,7 @@ public class Enemy : MonoBehaviour
     {
         currentMovementSpeed = data.baseMovementSpeed;
     }
-
-
-
-
+    
     public void AttemptToMove()
     {
         /* Check if a move is possible, and then call the relevant function. */
@@ -116,8 +119,7 @@ public class Enemy : MonoBehaviour
             // to do: swap places with another Enemy if this runs into another that's going in the opposite direction.
         }
     }
-
-
+    
     public void Advance(Vector2 newPosition)
     {
         /* Move one cell forward along the path. */
@@ -129,8 +131,7 @@ public class Enemy : MonoBehaviour
 
         currentFloor.grid.SetCellOccupant(currentPosition, gameObject);
     }
-
-
+    
     public void AttemptToChangeFloor()
     {
         Floor nextFloor = currentFloor.GetNextFloor(advancing);
@@ -158,8 +159,7 @@ public class Enemy : MonoBehaviour
             }
         }
     }
-
-
+    
     public void ChangeFloor(Floor nextFloor)
     {
         Floor oldFloor = currentFloor;
@@ -179,28 +179,17 @@ public class Enemy : MonoBehaviour
             oldFloor.grid.SetCellOccupant(oldFloor.grid.path.startPos, null);
         }
     }
-
-
-
-
+    
     public void Retreat()
     {
         /* Move one cell back along the path. */
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.X))
-        {
-            AttemptToMove();
-        }
     }
 
     IEnumerator TurnTick()
     {
         while (alive)
         {
-            yield return new WaitForSeconds(0.8f);
+            yield return new WaitForSeconds(ActionPhase.SecondsPerTick);
             AttemptToMove();
         }
     }

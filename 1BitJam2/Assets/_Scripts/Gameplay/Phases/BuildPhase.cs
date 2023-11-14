@@ -11,6 +11,16 @@ public class BuildPhase : MonoBehaviour
     
     public float buildPhaseDuration = 5;
 
+    private void OnEnable()
+    {
+        
+    }
+
+    private void OnDisable()
+    {
+        
+    }
+
     public void BeginBuildPhase()
     {
         OnBuildPhaseStarted?.Invoke();

@@ -22,7 +22,6 @@ public class FloorManager : MonoBehaviour
         OrganizeFloors();
 
         _floorTraversal = GetComponent<FloorTraversal>();
-        FindObjectOfType<EnemyWaveManager>().Init();
     }
 
     private void OrganizeFloors()
