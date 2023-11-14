@@ -508,7 +508,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6566399939481266824}
   - component: {fileID: 8940216202387128228}
-  - component: {fileID: 4911582609253543225}
   m_Layer: 0
   m_Name: TreasurePile
   m_TagString: TreasurePile
@@ -553,16 +552,3 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 1
---- !u!114 &4911582609253543225
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8094892543307074512}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 66d99c7d6f3488348b1eff96ad1bf74e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startingTreasure: 9999

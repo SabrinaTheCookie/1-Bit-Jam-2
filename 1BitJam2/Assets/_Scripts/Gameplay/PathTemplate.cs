@@ -20,7 +20,6 @@ public class Path
         //Debug.Log(Resources.LoadAll("Path Templates").Length);
 
         PathTemplate[] possiblePaths = Resources.LoadAll<PathTemplate>("Path Templates");
-        Debug.Log(possiblePaths.Length);
         PathTemplate path = possiblePaths[Random.Range(0, possiblePaths.Length)];
         positions = path.positions;
         startPos = positions[0];

@@ -1,12 +1,13 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
 public class EnemyWaveManager : MonoBehaviour
 {
-    /* Manages the waves of enemies and the composition of enemy squads. Talks to BuildPhaseManager when the wave is complete. */
-
-    public BuildPhaseManager buildPhaseManager;
+    public BuildPhase buildPhase;
 
     public GameObject enemyPrefab;
     public EnemyBaseClass[] enemyTypes;
@@ -20,7 +21,15 @@ public class EnemyWaveManager : MonoBehaviour
 
     public GameObject droppedLootPrefab;
 
-
+    private void OnEnable()
+    {
+        ActionPhase.OnActionPhaseStarted += BeginNewWave;
+    }
+    
+    private void OnDisable()
+    {
+        ActionPhase.OnActionPhaseStarted -= BeginNewWave;
+    }
 
     public void BeginNewWave()
     {
@@ -45,7 +54,7 @@ public class EnemyWaveManager : MonoBehaviour
     {
         enemiesRemaining.Clear();
 
-        buildPhaseManager.BeginBuildPhase();
+        buildPhase.BeginBuildPhase();
     }
 
 
