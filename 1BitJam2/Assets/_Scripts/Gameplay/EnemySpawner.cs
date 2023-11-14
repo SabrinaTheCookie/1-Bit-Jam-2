@@ -13,19 +13,20 @@ public class EnemySpawner : MonoBehaviour
     }
 
 
-    private void Update()
+    /*private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Z))
         {
-            SpawnEnemy();
+            SpawnEnemy(enemyType);
         }
-    }
+    }*/
 
 
-    public void SpawnEnemy()
+    public Enemy SpawnEnemy(EnemyBaseClass enemyType)
     {
         Vector3 spawnPoint = Grid.ConvertGridToWorldPosition(floor.grid.path.startPos);
         GameObject enemySpawned = Instantiate(enemyPrefab, spawnPoint, Quaternion.identity);
-        enemySpawned.GetComponent<Enemy>().Init(floor, floor.grid.path.startPos);
+        enemySpawned.GetComponent<Enemy>().Init(floor, floor.grid.path.startPos, enemyType);
+        return enemySpawned.GetComponent<Enemy>();
     }
 }

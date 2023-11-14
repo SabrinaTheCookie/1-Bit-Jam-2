@@ -22,6 +22,7 @@ public class FloorManager : MonoBehaviour
         OrganizeFloors();
 
         _floorTraversal = GetComponent<FloorTraversal>();
+        FindObjectOfType<EnemyWaveManager>().Init();
     }
 
     private void OrganizeFloors()
@@ -34,7 +35,7 @@ public class FloorManager : MonoBehaviour
             currentHeight += ySpaceBetweenFloors;
             if (currentHeight == ySpaceBetweenFloors) currentHeight *= 1.5f;
 
-            floors[i].SetupFloor(i, floors.Count);
+            floors[i].SetupFloor(this, i, floors.Count);
         }
     }
     

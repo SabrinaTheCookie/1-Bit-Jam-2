@@ -239,7 +239,10 @@ MonoBehaviour:
   spawner: {fileID: 0}
   treasurePile: {fileID: 0}
   enemiesOnFloor: []
+  enemyHolder: {fileID: 0}
   towersOnFloor: []
+  enemyPathRenderer: {fileID: 0}
+  floorManager: {fileID: 0}
 --- !u!1 &987530386
 GameObject:
   m_ObjectHideFlags: 0
@@ -251,7 +254,7 @@ GameObject:
   - component: {fileID: 987530388}
   - component: {fileID: 987530387}
   m_Layer: 0
-  m_Name: PathHelper
+  m_Name: PathDesigner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

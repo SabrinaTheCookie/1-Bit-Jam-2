@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Grid
@@ -8,15 +9,15 @@ public class Grid
 
     public Dictionary<Vector2, GameObject> cellPositions = new Dictionary<Vector2, GameObject>();
     private const float GRIDSIZE = 1;
-    public const float ENEMY_HEIGHT_OFFSET = 1.4f;
+    public const float ENEMY_HEIGHT_OFFSET = 0f;
     public Path path;
 
 
-    public Grid()
+    public Grid(bool lastFloor)
     {
         /* Constructor */
         GenerateGrid();
-        path = new Path();
+        path = new Path(lastFloor);
     }
 
 
@@ -24,23 +25,25 @@ public class Grid
 
     public void GenerateGrid()
     {
-        float zOffset = 0;
+        float zOffset = -1;
 
-        for (int column = 0; column < 10; column++)
+        for (int column = -1; column < 12; column++)
         {
-            float xOffset = 0;
+            float xOffset = -1;
 
-            for (int row = 0; row < 10; row++)
+            for (int row = -1; row < 12; row++)
             {
                 Vector2 cell = new Vector2(xOffset, zOffset);
                 GameObject occupant = null;
 
                 cellPositions.Add(cell, occupant);
+                //Debug.Log(cell);
                 xOffset += GRIDSIZE;
             }
 
             zOffset += GRIDSIZE;
         }
+        //Debug.Log("======================");
     }
 
 
@@ -61,10 +64,9 @@ public class Grid
 
     public void SetCellOccupant(Vector2 cell, GameObject occupant)
     {
-        Vector3 previousCell = occupant.transform.position;
-        cellPositions[previousCell] = null;
         cellPositions[cell] = occupant;
     }
+
 
     public Vector2 FindEnemyNextPosition(Vector2 currentPosition, bool advancing)
     {
@@ -73,8 +75,25 @@ public class Grid
 
         /* Check if Enemy needs to move up or down a floor then move. */
         Vector2 nextPosition;
-        if (advancing) { nextPosition = path.positions[index + 1]; }
-        else { nextPosition = path.positions[index - 1]; }
+        if (advancing) 
+        {
+            if (index + 1 >= path.positions.Count)
+            {
+                /* Enemy moved beyond stairs, going down a floor. */
+                return currentPosition;
+            }
+            else { nextPosition = path.positions[index + 1]; }
+        }
+        else 
+        {
+            if (index - 1 <= 0)
+            {
+                /* Enemy moved beyond stairs, going up a floor. */
+                return currentPosition;
+            }
+            else { nextPosition = path.positions[index - 1]; }
+        }
+
         return nextPosition;
     }
 

@@ -11,19 +11,28 @@ public class Floor : MonoBehaviour
     public GameObject spawner;
     public GameObject treasurePile;
     public List<Enemy> enemiesOnFloor;
+    public Transform enemyHolder;
     public List<GameObject> towersOnFloor = new List<GameObject>();
     public Grid grid;
+    public LineRenderer enemyPathRenderer;
+    public FloorManager floorManager;
+    public bool lastFloor = false;
 
 
-    void Awake()
+    public void SetupFloor(FloorManager manager, int floorNumber, int maxFloors)
     {
-        grid = new Grid();
-    }
 
-    public void SetupFloor(int floorNumber, int maxFloors)
-    {
+        floorManager = manager;
         _floorNumber = floorNumber;
         gameObject.name = $"Floor{_floorNumber}";
+        //Setup grid
+        if (_floorNumber == floorManager.Floors.Count - 1)
+        {
+            lastFloor = true;
+        }
+        grid = new Grid(lastFloor);
+        grid.path.DrawPath(enemyPathRenderer);
+
         if (_floorNumber == 0)
         {
             //Is first floor, use spawner instead of stair up
@@ -42,6 +51,7 @@ public class Floor : MonoBehaviour
             //standard floor, place stairs up and down.
             PlaceStairsDown(true);
         }
+
     }
 
     void PlaceStairsDown(bool placeUpwardsToo)
@@ -53,10 +63,13 @@ public class Floor : MonoBehaviour
         (Vector3, float) posRotPair = GetValidStairLocation(side);
         
 
-        stairDown.transform.localPosition = posRotPair.Item1;
-        stairDown.transform.Rotate(0,posRotPair.Item2,0);
+        /*stairDown.transform.localPosition = posRotPair.Item1;
+        stairDown.transform.Rotate(0,posRotPair.Item2,0);*/
 
-        if(placeUpwardsToo) PlaceStairsUp(side);
+        stairDown.transform.localPosition = Grid.ConvertGridToWorldPosition(grid.path.endPos);
+        RotateStairs(stairDown.transform);
+
+        if (placeUpwardsToo) PlaceStairsUp(side);
     }
 
     void PlaceStairsUp(int pairSide=-1)
@@ -76,9 +89,35 @@ public class Floor : MonoBehaviour
             int side = Random.Range(0, 4);
             posRotPair = GetValidStairLocation(side);
         }
-        stairUp.transform.localPosition = posRotPair.Item1;
-        stairUp.transform.Rotate(0,posRotPair.Item2,0);
+        /*stairUp.transform.localPosition = posRotPair.Item1;
+        stairUp.transform.Rotate(0,posRotPair.Item2,0);*/
+
+        stairUp.transform.localPosition = Grid.ConvertGridToWorldPosition(grid.path.startPos);
+        RotateStairs(stairUp.transform);
     }
+
+
+    void RotateStairs(Transform staircase)
+    {
+        if (staircase.localPosition.x <= -4.5f)
+        {
+            staircase.Rotate(0, -90, 0);
+        }
+        else if (staircase.localPosition.x >= 4.5f)
+        {
+            staircase.Rotate(0, 90, 0);
+        }
+        else if (staircase.localPosition.z <= -4.5f)
+        {
+            staircase.Rotate(0, 180, 0);
+        }
+        else if (staircase.localPosition.z >= 4.5f)
+        {
+            staircase.Rotate(0, 0, 0);
+        }
+    }
+
+
 
     void PlaceTreasurePile()
     {
@@ -88,6 +127,7 @@ public class Floor : MonoBehaviour
     void PlaceEnemySpawner()
     {
         spawner = Instantiate(spawner, objectHolder);
+        spawner.transform.localPosition = Grid.ConvertGridToWorldPosition(grid.path.startPos);
         spawner.GetComponent<EnemySpawner>().Init(this);
 
     }
@@ -121,5 +161,13 @@ public class Floor : MonoBehaviour
         }
 
         return (stairPos, rotation);
+    }
+
+    public Floor GetNextFloor(bool descending)
+    {
+        if (lastFloor && descending || _floorNumber == 0 &! descending) { return this; }
+        /* TO DO: This will throw an error if it's out of range! Throw exception. If at top, leave dungeon with loot - if at bottom, set enemy's advancing to false and steal gold. */
+        else if (descending) { return floorManager.Floors[_floorNumber + 1]; }
+        else { return floorManager.Floors[_floorNumber - 1]; }
     }
 }
