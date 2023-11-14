@@ -49,6 +49,7 @@ public class CameraController : MonoBehaviour
         vCamNoise = vCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
     }
 
+
     [ContextMenu("RotateCamera")]
     public void RotateCamera() { RotateCamera(false);}
     public void RotateCamera(bool antiClockwise)
