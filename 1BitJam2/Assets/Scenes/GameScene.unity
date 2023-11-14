@@ -4881,6 +4881,7 @@ GameObject:
   - component: {fileID: 1313500119}
   - component: {fileID: 1313500118}
   - component: {fileID: 1313500120}
+  - component: {fileID: 1313500121}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -4981,6 +4982,18 @@ MonoBehaviour:
   currentSquadSize: 0
   droppedLootPrefab: {fileID: 2241583606951420458, guid: affe6963cedb7a44d9be1b42198cb7bb,
     type: 3}
+--- !u!114 &1313500121
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1313500114}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75313d47e08bcec48927f1cebbc0d3bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1368266992
 GameObject:
   m_ObjectHideFlags: 0
