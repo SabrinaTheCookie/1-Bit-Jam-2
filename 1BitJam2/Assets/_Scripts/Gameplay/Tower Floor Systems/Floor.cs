@@ -12,6 +12,13 @@ public class Floor : MonoBehaviour
     public GameObject treasurePile;
     public List<Enemy> enemiesOnFloor;
     public List<GameObject> towersOnFloor = new List<GameObject>();
+    public Grid grid;
+
+
+    void Awake()
+    {
+        grid = new Grid();
+    }
 
     public void SetupFloor(int floorNumber, int maxFloors)
     {
@@ -81,6 +88,7 @@ public class Floor : MonoBehaviour
     void PlaceEnemySpawner()
     {
         spawner = Instantiate(spawner, objectHolder);
+        spawner.GetComponent<EnemySpawner>().Init(this);
 
     }
     
