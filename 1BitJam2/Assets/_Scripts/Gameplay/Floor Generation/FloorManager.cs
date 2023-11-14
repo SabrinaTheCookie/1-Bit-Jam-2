@@ -37,6 +37,7 @@ public class FloorManager : MonoBehaviour
             floors[i].SetupFloor(i, floors.Count);
         }
     }
+
     
     
 
