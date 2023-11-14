@@ -6,8 +6,8 @@ using UnityEngine;
 
 [RequireComponent(typeof(TextMeshProUGUI), typeof(Animator))]
 public class PhasePopupUI : MonoBehaviour
-{
-   private TextMeshProUGUI phaseText;
+{ 
+    private TextMeshProUGUI phaseText;
    private Animator animator;
    public bool animActive;
     private void OnEnable()

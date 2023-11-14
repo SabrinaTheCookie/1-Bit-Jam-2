@@ -10,6 +10,7 @@ public class BuildPhase : MonoBehaviour
     public static event Action OnBuildPhaseStarted;
     
     public float buildPhaseDuration = 5;
+    public float buildTimeRemaining;
 
     private void OnEnable()
     {
@@ -21,10 +22,23 @@ public class BuildPhase : MonoBehaviour
         
     }
 
+    void Update()
+    {
+        if (buildTimeRemaining > 0)
+        {
+            buildTimeRemaining -= Time.deltaTime;
+            if (buildTimeRemaining < 0)
+            {
+                buildTimeRemaining = -1;
+                BuildPhaseComplete();
+            }
+        }
+    }
+
     public void BeginBuildPhase()
     {
         OnBuildPhaseStarted?.Invoke();
-        Invoke(nameof(BuildPhaseComplete), buildPhaseDuration);
+        buildTimeRemaining = buildPhaseDuration;
     }
 
 
