@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class FloorTraversal : MonoBehaviour
 {
-    [SerializeField] private FloorManager _manager;
+    private FloorManager _manager;
     public int currentFloor;
     public float traversalDuration;
     public AnimationCurve translateCurve;
@@ -48,7 +48,7 @@ public class FloorTraversal : MonoBehaviour
         OnTraversalStarted?.Invoke();
         isTraversing = true;
         int nextFloor = currentFloor + Mathf.RoundToInt(direction.y);
-        List<GameObject> floors = _manager.Floors;
+        List<Floor> floors = _manager.Floors;
 
         for (int i = 0; i < floors.Count; i++)
         {
@@ -82,11 +82,11 @@ public class FloorTraversal : MonoBehaviour
         yield return null;
     }
 
-    void UpdateFloorScale(List<GameObject> gameObjects)
+    void UpdateFloorScale(List<Floor> floors)
     {
-        for (int i = 0; i < gameObjects.Count; i++)
+        for (int i = 0; i < floors.Count; i++)
         {
-            gameObjects[i].transform.localScale = (i != currentFloor) ? unfocusedFloorScale : focusedFloorScale;
+            floors[i].transform.localScale = (i != currentFloor) ? unfocusedFloorScale : focusedFloorScale;
         }
     }
     IEnumerator UpdateFloorScaleOverTime(Transform target, Vector3 endScale)

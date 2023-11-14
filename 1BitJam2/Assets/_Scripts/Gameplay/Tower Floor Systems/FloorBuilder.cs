@@ -6,19 +6,18 @@ public class FloorBuilder : MonoBehaviour
 {
     public GameObject floorPrefab;
 
-    public GameObject BuildFloor()
+    public Floor BuildFloor()
     {
-        GameObject newFloor = Instantiate(floorPrefab, transform);
+        Floor newFloor = Instantiate(floorPrefab, transform).GetComponent<Floor>();
         return newFloor;
     }
 
-    public List<GameObject> BuildFloor(int count)
+    public List<Floor> BuildFloor(int count)
     {
-        List<GameObject> floors = new List<GameObject>();
+        List<Floor> floors = new List<Floor>();
         for (int i = 0; i < count; i++)
         {
-            GameObject floor = BuildFloor();
-            floor.name = $"Floor{i}";
+            Floor floor = BuildFloor();
             floors.Add(floor);
         }
 

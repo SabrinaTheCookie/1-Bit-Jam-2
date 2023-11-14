@@ -11,8 +11,8 @@ public class FloorManager : MonoBehaviour
     private FloorBuilder _floorBuilder;
     private FloorTraversal _floorTraversal;
     
-    private List<GameObject> floors;
-    public List<GameObject> Floors => floors;
+    private List<Floor> floors;
+    public List<Floor> Floors => floors;
 
 
     private void Awake()
@@ -29,9 +29,12 @@ public class FloorManager : MonoBehaviour
         float currentHeight = 0;
         for (int i = 0; i < floors.Count; i++)
         {
+            //Place the floor in the correct position
             floors[i].transform.position = Vector3.down * currentHeight;
             currentHeight += ySpaceBetweenFloors;
             if (currentHeight == ySpaceBetweenFloors) currentHeight *= 1.5f;
+
+            floors[i].SetupFloor(i, floors.Count);
         }
     }
     

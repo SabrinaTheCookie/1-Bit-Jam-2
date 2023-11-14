@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 465b54c8eee6da140805c33b975a38e5, type: 3}
-  m_Name: Heavy
+  m_Name: Medium
   m_EditorClassIdentifier: 
-  enemyClass: Heavy
-  maxHealth: 250
-  attackPower: 50
-  baseMovementSpeed: 2
-  carryCapacity: 50
+  enemyClass: Medium
+  maxHealth: 150
+  attackPower: 25
+  baseMovementSpeed: 1
+  carryCapacity: 35
   sprite: {fileID: 0}

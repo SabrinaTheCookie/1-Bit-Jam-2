@@ -15,6 +15,6 @@ MonoBehaviour:
   enemyClass: Light
   maxHealth: 75
   attackPower: 10
-  baseMovementSpeed: 15
+  baseMovementSpeed: 2
   carryCapacity: 20
   sprite: {fileID: 0}

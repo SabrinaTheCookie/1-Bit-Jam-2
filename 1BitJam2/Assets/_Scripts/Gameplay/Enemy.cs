@@ -16,6 +16,18 @@ public class Enemy : MonoBehaviour
 
     public float currentLootHeld = 0;
 
+    public Floor currentFloor;
+    public Vector2 currentPosition;
+    bool advancing = true;
+
+
+    /* Essentially a constructor for the Enemy class, called by EnemySpawner */
+    public void Init(Floor _currentFloor, Vector2 startingPosition)
+    {
+        currentFloor = _currentFloor;
+        currentPosition = startingPosition;
+    }
+
 
     private void Awake()
     {
@@ -75,4 +87,38 @@ public class Enemy : MonoBehaviour
         currentMovementSpeed = data.baseMovementSpeed;
     }
 
+
+
+
+    public void AttemptToMove()
+    {
+        /* Check if a move is possible, and then call the relevant function. */
+        Vector2 desiredPosition = currentFloor.grid.FindEnemyNextPosition(currentPosition, advancing);
+
+        Advance(desiredPosition);
+    }
+
+
+    public void Advance(Vector2 newPosition)
+    {
+        /* Move one cell forward along the path. */
+
+        currentPosition = newPosition;
+
+        // Change position in world
+        transform.position = Grid.ConvertGridToWorldPosition(currentPosition);
+    }
+
+    public void Retreat()
+    {
+        /* Move one cell back along the path. */
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            AttemptToMove();
+        }
+    }
 }

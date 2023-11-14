@@ -286,15 +286,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 66803302}
-  m_LocalRotation: {x: 0.13052616, y: 0, z: 0, w: 0.9914449}
-  m_LocalPosition: {x: 0, y: 3.67, z: -12}
+  m_LocalRotation: {x: 0.25294346, y: -0, z: -0, w: 0.96748114}
+  m_LocalPosition: {x: 0, y: 7.46, z: -13.15}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1827826262}
   m_Father: {fileID: 1510034439}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 15, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 29.304, y: 0, z: 0}
 --- !u!114 &66803304
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -950,8 +950,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
-  m_LocalRotation: {x: 0.13052616, y: -0, z: -0, w: 0.9914449}
-  m_LocalPosition: {x: 0, y: 3.67, z: -12}
+  m_LocalRotation: {x: 0.25294346, y: -0, z: -0, w: 0.96748114}
+  m_LocalPosition: {x: 0, y: 7.46, z: -13.15}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2857,7 +2857,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aefe5c8a563d37f44a6e49b937b47273, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _manager: {fileID: 0}
   currentFloor: 0
   traversalDuration: 1
   translateCurve:
@@ -4926,6 +4925,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vCam: {fileID: 66803304}
+  isRotating: 0
   rotationSteps: 90
   rotationDuration: 1
   rotationCurve:
@@ -4970,7 +4970,6 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  isRotating: 0
   isShaking: 0
   shakeAmplitude: 1
   shakeFrequency: 0.1
