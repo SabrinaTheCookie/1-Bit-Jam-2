@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class FloorTraversal : MonoBehaviour
@@ -20,6 +21,8 @@ public class FloorTraversal : MonoBehaviour
     public float fastTraversalSpeedMultiplier;
     public bool fastForwardActive;
     public bool isTraversing;
+    private bool isMultiTraversing;
+    public float multiTraversalSpeedMultiplier;
     public static event Action OnTraversalStarted;
     public static event Action OnTraversalEnded;
 
@@ -62,64 +65,83 @@ public class FloorTraversal : MonoBehaviour
     void StartTraversal(int input)
     {
         if(input == 0) return;
-
-        Debug.Log("Start");
+        
 
         traversalInputDirection = input;
-        if (input > 0) TraverseUpwards();
-        else TraverseDownwards();
+        Traverse(-input);
     }
 
     void EndTraversal()
     {
-        Debug.Log("End");
         traversalInputDirection = 0;
         timeHoldingTraversal = 0;
         fastForwardActive = false;
     }
-
-
-    [ContextMenu("Traverse Upwards")]
-    public void TraverseUpwards()
+    [ContextMenu("Traverse Downwards Multiple")]
+    void TraverseMultipleDown()
     {
-        //Cannot traverse upwards on the top floor.
-        if (currentFloor == 0) return;
-        Traverse(-1);
+        MultiTraversal(1,3);
 
     }
-    [ContextMenu("Traverse Downwards")]
-    public void TraverseDownwards()
+    [ContextMenu("Traverse Upwards Multiple")]
+    void TraverseMultipleUp()
     {
-        //Cannot traverse downwards on bottom floor.
-        if (currentFloor == _manager.Floors.Count - 1) return;
-        Traverse(1);
+        MultiTraversal(-1,3);
     }
 
-    private void Traverse(int direction)
+    void TraverseToTop()
     {
+        MultiTraversal(0 + currentFloor);
+    }
+
+    void TraverseToBottom()
+    {
+        MultiTraversal(_manager.Floors.Count + currentFloor);
+
+    }
+    void MultiTraversal(int floorsAndDirection)
+    {
+        int direction = floorsAndDirection < 0 ? -1 : 1;
+        MultiTraversal(direction, Mathf.Abs(floorsAndDirection));
+    }
+
+    void MultiTraversal(int direction, int numberOfFloors)
+    {
+        isMultiTraversing = true;
+        Traverse(direction, numberOfFloors);
+    }
+
+
+    private void Traverse(int direction, int numberOfFloors=1)
+    {
+        if (direction == 1 && currentFloor == _manager.Floors.Count - 1) return; 
+        if (direction == -1 && currentFloor == 0) return; 
         if (isTraversing) return;
         isTraversing = true;
         OnTraversalStarted?.Invoke();
         int nextFloor = currentFloor + Mathf.RoundToInt(direction);
         List<Floor> floors = _manager.Floors;
-        Debug.Log("Traverse called");
-        StartCoroutine(TraverseOverTime(floors, direction, nextFloor));
+        StartCoroutine(TraverseOverTime(floors, direction, nextFloor, numberOfFloors));
     }
 
-    private void TraversalComplete()
+    private void TraversalComplete(int direction, int numberOfFloors)
     {
         if (!isTraversing) return;
         isTraversing = false;
         OnTraversalEnded?.Invoke();
-
+        if (numberOfFloors > 0)
+        {
+            Traverse(direction, numberOfFloors);
+        }
+        else if (isMultiTraversing) isMultiTraversing = false;
         if (traversalInputDirection != 0)
         {
             StartTraversal(traversalInputDirection);
         }
     }
-    private IEnumerator TraverseOverTime(List<Floor> targets, int traversal, int nextFloor)
+
+    private IEnumerator TraverseOverTime(List<Floor> targets, int traversal, int nextFloor, int floorsToTraverse=1)
     {
-        Debug.Log("Traverse ie");
         //Generate start and end scale/positions
         List<Vector3> startScales = new List<Vector3>();
         List<Vector3> startPositions = new List<Vector3>();
@@ -152,7 +174,7 @@ public class FloorTraversal : MonoBehaviour
                 targets[i].transform.localScale = Vector3.Lerp(startScales[i], endScales[i], curveT);
                 targets[i].transform.position = Vector3.Lerp(startPositions[i], endPositions[i], curveT);
             }
-            t += Time.deltaTime * (fastForwardActive ? fastTraversalSpeedMultiplier : 1);
+            t += Time.deltaTime * (isMultiTraversing ? multiTraversalSpeedMultiplier : (fastForwardActive ? fastTraversalSpeedMultiplier : 1));
 
             yield return null;
         }
@@ -164,8 +186,8 @@ public class FloorTraversal : MonoBehaviour
             targets[i].transform.position = endPositions[i];
         }
         currentFloor = nextFloor;
-        Debug.Log("Traversal Complete");
-        TraversalComplete();
+        floorsToTraverse--;
+        TraversalComplete(traversal, floorsToTraverse);
 
         yield return null;
     }
