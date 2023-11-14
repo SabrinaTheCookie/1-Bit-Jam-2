@@ -7,11 +7,18 @@ public class FloorTraversal : MonoBehaviour
 {
     private FloorManager _manager;
     public int currentFloor;
+    private float _traversalDuration;
     public float traversalDuration;
+
     public AnimationCurve translateCurve;
     public Vector3 focusedFloorScale;
     public Vector3 unfocusedFloorScale;
-    
+
+    public Vector2 traversalInputDirection;
+    public float timeHoldingTraversal;
+    public float holdTimeForFastTraversal;
+    public float fastTraversalSpeedMultiplier;
+    public bool fastForwardActive;
     public bool isTraversing;
     public static event Action OnTraversalStarted;
     public static event Action OnTraversalEnded;
@@ -19,12 +26,57 @@ public class FloorTraversal : MonoBehaviour
     private void Awake()
     {
         _manager = GetComponent<FloorManager>();
+        _traversalDuration = traversalDuration;
+
+    }
+
+    void OnEnable()
+    {
+        InputManager.OnMovePressed += StartTraversal;
+        InputManager.OnMoveReleased += EndTraversal;
+    }
+
+    void OnDisable()
+    {
+        InputManager.OnMovePressed -= StartTraversal;
+        InputManager.OnMoveReleased -= EndTraversal;
+
     }
 
     void Start()
     {
         UpdateFloorScale(_manager.Floors);
     }
+
+    void Update()
+    {
+        //Only update timer if holding key
+        if (traversalInputDirection == Vector2.zero) return;
+        timeHoldingTraversal += Time.deltaTime;
+        //If its already fast forwarding, return.
+        if (fastForwardActive) return;
+
+        if (timeHoldingTraversal > holdTimeForFastTraversal)
+        {
+            fastForwardActive = true;
+        }
+    }
+
+    void StartTraversal(Vector2 input)
+    {
+        traversalInputDirection = input;
+        if (input.y > 0) TraverseUpwards();
+        else if(input.y < 0) TraverseDownwards();
+    }
+
+    void EndTraversal()
+    {
+        traversalInputDirection = Vector2.zero;
+        timeHoldingTraversal = 0;
+        _traversalDuration = traversalDuration;
+        fastForwardActive = false;
+    }
+
 
     [ContextMenu("Traverse Upwards")]
     public void TraverseUpwards()
@@ -50,35 +102,68 @@ public class FloorTraversal : MonoBehaviour
         int nextFloor = currentFloor + Mathf.RoundToInt(direction.y);
         List<Floor> floors = _manager.Floors;
 
-        for (int i = 0; i < floors.Count; i++)
-        {
-            float translationDistance = _manager.YSpaceBetweenFloors * (i == nextFloor || i == currentFloor ? 1.5f : 1);
-            StartCoroutine(TraverseOverTime(floors[i].transform, direction * translationDistance));
-            StartCoroutine(UpdateFloorScaleOverTime(floors[i].transform, (i != nextFloor) ? unfocusedFloorScale : focusedFloorScale));
-        }
-        Invoke(nameof(TraversalComplete), traversalDuration);
+        StartCoroutine(TraverseOverTime(floors, direction, nextFloor));
+
         currentFloor = nextFloor;
     }
 
     private void TraversalComplete()
     {
         if (!isTraversing) return;
-        OnTraversalEnded?.Invoke();
         isTraversing = false;
-    }
-    private IEnumerator TraverseOverTime(Transform target, Vector3 traversal)
-    {
-        float t = 0;
-        Vector3 startPos = target.position;
-        Vector3 endPos = startPos + traversal;
-        while (t < traversalDuration)
+        OnTraversalEnded?.Invoke();
+
+        if (traversalInputDirection != Vector2.zero)
         {
-            target.position = Vector3.Lerp(startPos, endPos ,translateCurve.Evaluate(t / traversalDuration) );
-            t += Time.deltaTime;
+            StartTraversal(traversalInputDirection);
+        }
+    }
+    private IEnumerator TraverseOverTime(List<Floor> targets, Vector3 traversal, int nextFloor)
+    {
+        //Generate start and end scale/positions
+        List<Vector3> startScales = new List<Vector3>();
+        List<Vector3> startPositions = new List<Vector3>();
+        List<Vector3> endScales = new List<Vector3>();
+        List<Vector3> endPositions = new List<Vector3>();
+        for (int i = 0; i < targets.Count; i++)
+        {
+            bool isNextFloor = nextFloor == i;
+            float translationDistance = _manager.YSpaceBetweenFloors * (isNextFloor || currentFloor == i ? 1.5f : 1);
+
+            //Start scale/position
+            startScales.Add(targets[i].transform.localScale);
+            startPositions.Add(targets[i].transform.position);
+            //End Scale
+            endScales.Add(isNextFloor ? focusedFloorScale : unfocusedFloorScale);
+            //Calculate end position
+            Vector3 endPos = startPositions[i];
+            endPos.y += (translationDistance * traversal.y);
+            endPositions.Add(Vector3Int.FloorToInt(endPos));
+        }
+
+        //Iterate and translate/scale all floors
+        float t = 0;
+        while (t < _traversalDuration)
+        {
+            float curveT = translateCurve.Evaluate(t / _traversalDuration);
+            for (int i = 0; i < targets.Count; i++)
+            {
+                targets[i].transform.localScale = Vector3.Lerp(startScales[i], endScales[i], curveT);
+                targets[i].transform.position = Vector3.Lerp(startPositions[i], endPositions[i], curveT);
+            }
+            t += Time.deltaTime * (fastForwardActive ? fastTraversalSpeedMultiplier : 1);
+
             yield return null;
         }
 
-        target.position = endPos;
+        //Set to end value
+        for (int i = 0; i < targets.Count; i++)
+        {
+            targets[i].transform.localScale = endScales[i];
+            targets[i].transform.position = endPositions[i];
+        }
+        TraversalComplete();
+
         yield return null;
     }
 
@@ -88,20 +173,5 @@ public class FloorTraversal : MonoBehaviour
         {
             floors[i].transform.localScale = (i != currentFloor) ? unfocusedFloorScale : focusedFloorScale;
         }
-    }
-    IEnumerator UpdateFloorScaleOverTime(Transform target, Vector3 endScale)
-    {
-        float t = 0;
-        Vector3 startScale = target.localScale;
-        while (t < traversalDuration)
-        {
-            target.localScale = Vector3.Lerp(startScale, endScale , translateCurve.Evaluate(t / traversalDuration));
-            t += Time.deltaTime;
-            yield return null;
-        }
-
-        target.localScale = endScale;
-        yield return null;
-
     }
 }

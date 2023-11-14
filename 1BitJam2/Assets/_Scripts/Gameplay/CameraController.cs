@@ -11,9 +11,12 @@ public class CameraController : MonoBehaviour
     private CinemachineVirtualCamera vCam;
 
     private CinemachineBasicMultiChannelPerlin vCamNoise;
-    
+
     [Header("Rotation")]
     public bool isRotating;
+
+    private bool antiClockwise;
+    public bool isHoldingRotate;
     public float rotationSteps = 90f;
 
     public float rotationDuration;
@@ -29,12 +32,16 @@ public class CameraController : MonoBehaviour
     {
         FloorTraversal.OnTraversalStarted += StartCameraShake;
         FloorTraversal.OnTraversalEnded += EndCameraShake;
+        InputManager.OnMovePressed += InputRotation;
+        InputManager.OnMoveReleased += EndRotation;
     }
     
     private void OnDisable()
     {
         FloorTraversal.OnTraversalStarted -= StartCameraShake;
         FloorTraversal.OnTraversalEnded -= EndCameraShake;
+        InputManager.OnMovePressed -= InputRotation;
+        InputManager.OnMoveReleased -= EndRotation;
     }
 
     private void Awake()
@@ -50,13 +57,27 @@ public class CameraController : MonoBehaviour
         StartCoroutine(RotateLerp(antiClockwise));
     }
 
-    public IEnumerator RotateLerp(bool antiClockwise)
+    public void InputRotation(Vector2 input)
+    {
+        if(input.x == 0) return;
+
+        isHoldingRotate = true;
+        antiClockwise = input.x > 0;
+        RotateCamera(antiClockwise);
+    }
+
+    public void EndRotation()
+    {
+        isHoldingRotate = false;
+    }
+
+    public IEnumerator RotateLerp(bool rotateAntiClockwise)
     {
         isRotating = true;
         StartCameraShake(0.5f);
         float t = 0;
         float startRotation = transform.rotation.eulerAngles.y;
-        float endRotation = startRotation + rotationSteps * (antiClockwise ? -1 : 1);
+        float endRotation = startRotation + rotationSteps * (rotateAntiClockwise ? -1 : 1);
         while (t < rotationDuration)
         {
             if(!isShaking) StartCameraShake(0.5f);
@@ -67,6 +88,7 @@ public class CameraController : MonoBehaviour
         transform.rotation = Quaternion.Euler(0, endRotation, 0);
         EndCameraShake();
         isRotating = false;
+        if(isHoldingRotate) RotateCamera(antiClockwise);
         yield return null;
     }
 

@@ -13,7 +13,8 @@ public class InputManager : Singleton<InputManager>
 
     public static event Action OnPrimaryUpdated;
     public static event Action<Vector2> OnLookUpdated;
-    public static event Action<Vector2> OnMoveUpdated;
+    public static event Action<Vector2> OnMovePressed;
+    public static event Action OnMoveReleased;
 
     void Awake()
     {
@@ -24,14 +25,20 @@ public class InputManager : Singleton<InputManager>
     {
         if (!playerInput.camera)
             playerInput.camera = Camera.main;
-
     }
 
     public void OnMove(InputAction.CallbackContext context)
     {
         Vector2 pos = context.ReadValue<Vector2>();
         moveDelta = pos;
-        OnMoveUpdated?.Invoke(moveDelta);
+        if (context.performed)
+        {
+            OnMovePressed?.Invoke(moveDelta);
+        }
+        else if (context.canceled)
+        {
+            OnMoveReleased?.Invoke();
+        }
     }
 
     public void OnLook(InputAction.CallbackContext context)
