@@ -6,25 +6,33 @@ using UnityEngine;
 
 public class FloorTraversal : MonoBehaviour
 {
+    [Header("Components")]
     private FloorManager _manager;
+    public static event Action OnTraversalStarted;
+    public static event Action OnTraversalEnded;
+    
+    [Header("Traversal")]
     public int currentFloor;
+    public bool isTraversing;
+    public int traversalInputDirection;
     private float _traversalDuration;
     public float traversalDuration;
 
+    [Header("Animation")]
     public AnimationCurve translateCurve;
     public Vector3 focusedFloorScale;
     public Vector3 unfocusedFloorScale;
 
-    public int traversalInputDirection;
+    [Header("Fast Forward")]
+    public bool fastForwardActive;
     public float timeHoldingTraversal;
     public float holdTimeForFastTraversal;
     public float fastTraversalSpeedMultiplier;
-    public bool fastForwardActive;
-    public bool isTraversing;
+    
+    [Header("Multi-Traversal")]
     private bool isMultiTraversing;
     public float multiTraversalSpeedMultiplier;
-    public static event Action OnTraversalStarted;
-    public static event Action OnTraversalEnded;
+    
 
     private void Awake()
     {
@@ -89,15 +97,10 @@ public class FloorTraversal : MonoBehaviour
         MultiTraversal(-1,3);
     }
 
-    void TraverseToTop()
+    public void TraverseToFloor(int floor)
     {
-        MultiTraversal(0 + currentFloor);
-    }
-
-    void TraverseToBottom()
-    {
-        MultiTraversal(_manager.Floors.Count + currentFloor);
-
+        int floorsToMove = floor - currentFloor;
+        MultiTraversal(floorsToMove);
     }
     void MultiTraversal(int floorsAndDirection)
     {
