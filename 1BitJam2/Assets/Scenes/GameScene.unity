@@ -5225,6 +5225,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1313500116}
   - component: {fileID: 1313500115}
+  - component: {fileID: 1313500117}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -5260,6 +5261,33 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1313500117
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1313500114}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abb11d1c4c695c14eb12d8e21b05cd70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buildPhaseManager: {fileID: 0}
+  enemyPrefab: {fileID: 2241583606951420458, guid: 4395bd05c76cd454cbb519faeca82de4,
+    type: 3}
+  enemyTypes:
+  - {fileID: 11400000, guid: 471da965541d8554b97f31001b683d56, type: 2}
+  - {fileID: 11400000, guid: 09384996c86e20543a3cae261049b668, type: 2}
+  - {fileID: 11400000, guid: 7d0e75966cacc1243aa1ab0d109f92ce, type: 2}
+  enemySpawner: {fileID: 3853349456896073327, guid: b403e84854e7fc142ba9b5be3cf43fee,
+    type: 3}
+  waveNumber: 0
+  enemiesRemaining: []
+  minimumSquadSize: 4
+  currentSquadSize: 0
+  droppedLootPrefab: {fileID: 2241583606951420458, guid: affe6963cedb7a44d9be1b42198cb7bb,
+    type: 3}
 --- !u!1 &1368266992
 GameObject:
   m_ObjectHideFlags: 0
