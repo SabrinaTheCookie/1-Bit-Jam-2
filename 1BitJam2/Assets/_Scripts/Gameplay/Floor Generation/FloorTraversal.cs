@@ -100,6 +100,7 @@ public class FloorTraversal : MonoBehaviour
     public void TraverseToFloor(int floor)
     {
         int floorsToMove = floor - currentFloor;
+        if (floorsToMove == 0) return;
         MultiTraversal(floorsToMove);
     }
     void MultiTraversal(int floorsAndDirection)
