@@ -9,11 +9,15 @@ public class InputManager : Singleton<InputManager>
     private PlayerInput playerInput;
     [SerializeField] private Vector2 pointerPositionScreenSpace;
     [SerializeField] private Vector3 lookDelta;
-    [SerializeField] private Vector3 moveDelta;
+    [SerializeField] private int traverseDelta;
+    [SerializeField] private int rotateDelta;
 
     public static event Action OnPrimaryUpdated;
     public static event Action<Vector2> OnLookUpdated;
-    public static event Action<Vector2> OnMoveUpdated;
+    public static event Action<int> OnTraversePressed;
+    public static event Action OnTraverseReleased;
+    public static event Action<int> OnRotatePressed;
+    public static event Action OnRotateReleased;
 
     void Awake()
     {
@@ -24,14 +28,33 @@ public class InputManager : Singleton<InputManager>
     {
         if (!playerInput.camera)
             playerInput.camera = Camera.main;
-
     }
 
-    public void OnMove(InputAction.CallbackContext context)
+    public void OnTraverse(InputAction.CallbackContext context)
     {
-        Vector2 pos = context.ReadValue<Vector2>();
-        moveDelta = pos;
-        OnMoveUpdated?.Invoke(moveDelta);
+        traverseDelta = Mathf.RoundToInt(context.ReadValue<float>());
+
+        if (context.performed)
+        {
+            OnTraversePressed?.Invoke(traverseDelta);
+        }
+        else if (context.canceled)
+        {
+            OnTraverseReleased?.Invoke();
+        }
+    }
+
+    public void OnRotate(InputAction.CallbackContext context)
+    {
+        rotateDelta = Mathf.RoundToInt(context.ReadValue<float>());
+        if (context.performed)
+        {
+            OnRotatePressed?.Invoke(rotateDelta);
+        }
+        else if (context.canceled)
+        {
+            OnRotateReleased?.Invoke();
+        }
     }
 
     public void OnLook(InputAction.CallbackContext context)

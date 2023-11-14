@@ -11,9 +11,16 @@ public class CameraController : MonoBehaviour
     private CinemachineVirtualCamera vCam;
 
     private CinemachineBasicMultiChannelPerlin vCamNoise;
-    
+
     [Header("Rotation")]
     public bool isRotating;
+
+    private bool antiClockwise;
+    public bool isHoldingRotate;
+    public float timeHoldingRotate;
+    public float holdTimeForFastRotate;
+    public float fastRotateSpeedMultiplier;
+    public bool fastForwardActive;
     public float rotationSteps = 90f;
 
     public float rotationDuration;
@@ -29,12 +36,16 @@ public class CameraController : MonoBehaviour
     {
         FloorTraversal.OnTraversalStarted += StartCameraShake;
         FloorTraversal.OnTraversalEnded += EndCameraShake;
+        InputManager.OnRotatePressed += InputRotation;
+        InputManager.OnRotateReleased += EndRotation;
     }
     
     private void OnDisable()
     {
         FloorTraversal.OnTraversalStarted -= StartCameraShake;
         FloorTraversal.OnTraversalEnded -= EndCameraShake;
+        InputManager.OnRotatePressed -= InputRotation;
+        InputManager.OnRotateReleased -= EndRotation;
     }
 
     private void Awake()
@@ -42,6 +53,17 @@ public class CameraController : MonoBehaviour
         vCamNoise = vCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
     }
 
+    void Update()
+    {
+        if (!isHoldingRotate) return;
+        timeHoldingRotate += Time.deltaTime;
+        if (!fastForwardActive && timeHoldingRotate > holdTimeForFastRotate)
+        {
+            fastForwardActive = true;
+        }
+
+
+    }
 
     [ContextMenu("RotateCamera")]
     public void RotateCamera() { RotateCamera(false);}
@@ -51,23 +73,41 @@ public class CameraController : MonoBehaviour
         StartCoroutine(RotateLerp(antiClockwise));
     }
 
-    public IEnumerator RotateLerp(bool antiClockwise)
+    public void InputRotation(int input)
+    {
+        if(input == 0) return;
+
+        isHoldingRotate = true;
+        antiClockwise = input > 0;
+        RotateCamera(antiClockwise);
+    }
+
+    public void EndRotation()
+    {
+        
+        timeHoldingRotate = 0;
+        fastForwardActive = false;
+        isHoldingRotate = false;
+    }
+
+    public IEnumerator RotateLerp(bool rotateAntiClockwise)
     {
         isRotating = true;
         StartCameraShake(0.5f);
         float t = 0;
         float startRotation = transform.rotation.eulerAngles.y;
-        float endRotation = startRotation + rotationSteps * (antiClockwise ? -1 : 1);
+        float endRotation = startRotation + rotationSteps * (rotateAntiClockwise ? -1 : 1);
         while (t < rotationDuration)
         {
             if(!isShaking) StartCameraShake(0.5f);
             transform.rotation = Quaternion.Euler(0, Mathf.Lerp(startRotation, endRotation, rotationCurve.Evaluate(t / rotationDuration)), 0);
-            t += Time.deltaTime;
+            t += Time.deltaTime * (fastForwardActive ? fastRotateSpeedMultiplier : 1);
             yield return null;
         }
         transform.rotation = Quaternion.Euler(0, endRotation, 0);
         EndCameraShake();
         isRotating = false;
+        if(isHoldingRotate) RotateCamera(antiClockwise);
         yield return null;
     }
 
