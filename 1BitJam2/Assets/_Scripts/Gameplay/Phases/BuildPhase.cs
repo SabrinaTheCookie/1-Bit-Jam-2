@@ -41,7 +41,12 @@ public class BuildPhase : MonoBehaviour
         buildTimeRemaining = buildPhaseDuration;
     }
 
-
+    public void EndBuildPhase()
+    {
+        buildTimeRemaining = -1;
+        BuildPhaseComplete();
+    }
+    
     public void BuildPhaseComplete()
     {
         OnBuildPhaseComplete?.Invoke();
