@@ -14,7 +14,7 @@ public class FloorTraversal : MonoBehaviour
     public Vector3 focusedFloorScale;
     public Vector3 unfocusedFloorScale;
 
-    public Vector2 traversalInputDirection;
+    public int traversalInputDirection;
     public float timeHoldingTraversal;
     public float holdTimeForFastTraversal;
     public float fastTraversalSpeedMultiplier;
@@ -32,15 +32,14 @@ public class FloorTraversal : MonoBehaviour
 
     void OnEnable()
     {
-        InputManager.OnMovePressed += StartTraversal;
-        InputManager.OnMoveReleased += EndTraversal;
+        InputManager.OnTraversePressed += StartTraversal;
+        InputManager.OnTraverseReleased += EndTraversal;
     }
 
     void OnDisable()
     {
-        InputManager.OnMovePressed -= StartTraversal;
-        InputManager.OnMoveReleased -= EndTraversal;
-
+        InputManager.OnTraversePressed -= StartTraversal;
+        InputManager.OnTraverseReleased -= EndTraversal;
     }
 
     void Start()
@@ -51,29 +50,31 @@ public class FloorTraversal : MonoBehaviour
     void Update()
     {
         //Only update timer if holding key
-        if (traversalInputDirection == Vector2.zero) return;
+        if (traversalInputDirection == 0) return;
         timeHoldingTraversal += Time.deltaTime;
         //If its already fast forwarding, return.
-        if (fastForwardActive) return;
-
-        if (timeHoldingTraversal > holdTimeForFastTraversal)
+        if (!fastForwardActive & timeHoldingTraversal > holdTimeForFastTraversal)
         {
             fastForwardActive = true;
         }
     }
 
-    void StartTraversal(Vector2 input)
+    void StartTraversal(int input)
     {
+        if(input == 0) return;
+
+        Debug.Log("Start");
+
         traversalInputDirection = input;
-        if (input.y > 0) TraverseUpwards();
-        else if(input.y < 0) TraverseDownwards();
+        if (input > 0) TraverseUpwards();
+        else TraverseDownwards();
     }
 
     void EndTraversal()
     {
-        traversalInputDirection = Vector2.zero;
+        Debug.Log("End");
+        traversalInputDirection = 0;
         timeHoldingTraversal = 0;
-        _traversalDuration = traversalDuration;
         fastForwardActive = false;
     }
 
@@ -83,7 +84,7 @@ public class FloorTraversal : MonoBehaviour
     {
         //Cannot traverse upwards on the top floor.
         if (currentFloor == 0) return;
-        Traverse(Vector3.down);
+        Traverse(-1);
 
     }
     [ContextMenu("Traverse Downwards")]
@@ -91,20 +92,18 @@ public class FloorTraversal : MonoBehaviour
     {
         //Cannot traverse downwards on bottom floor.
         if (currentFloor == _manager.Floors.Count - 1) return;
-        Traverse(Vector3.up);
+        Traverse(1);
     }
 
-    private void Traverse(Vector3 direction)
+    private void Traverse(int direction)
     {
         if (isTraversing) return;
-        OnTraversalStarted?.Invoke();
         isTraversing = true;
-        int nextFloor = currentFloor + Mathf.RoundToInt(direction.y);
+        OnTraversalStarted?.Invoke();
+        int nextFloor = currentFloor + Mathf.RoundToInt(direction);
         List<Floor> floors = _manager.Floors;
-
+        Debug.Log("Traverse called");
         StartCoroutine(TraverseOverTime(floors, direction, nextFloor));
-
-        currentFloor = nextFloor;
     }
 
     private void TraversalComplete()
@@ -113,18 +112,20 @@ public class FloorTraversal : MonoBehaviour
         isTraversing = false;
         OnTraversalEnded?.Invoke();
 
-        if (traversalInputDirection != Vector2.zero)
+        if (traversalInputDirection != 0)
         {
             StartTraversal(traversalInputDirection);
         }
     }
-    private IEnumerator TraverseOverTime(List<Floor> targets, Vector3 traversal, int nextFloor)
+    private IEnumerator TraverseOverTime(List<Floor> targets, int traversal, int nextFloor)
     {
+        Debug.Log("Traverse ie");
         //Generate start and end scale/positions
         List<Vector3> startScales = new List<Vector3>();
         List<Vector3> startPositions = new List<Vector3>();
         List<Vector3> endScales = new List<Vector3>();
         List<Vector3> endPositions = new List<Vector3>();
+
         for (int i = 0; i < targets.Count; i++)
         {
             bool isNextFloor = nextFloor == i;
@@ -137,7 +138,7 @@ public class FloorTraversal : MonoBehaviour
             endScales.Add(isNextFloor ? focusedFloorScale : unfocusedFloorScale);
             //Calculate end position
             Vector3 endPos = startPositions[i];
-            endPos.y += (translationDistance * traversal.y);
+            endPos.y += (translationDistance * traversal);
             endPositions.Add(Vector3Int.FloorToInt(endPos));
         }
 
@@ -162,6 +163,8 @@ public class FloorTraversal : MonoBehaviour
             targets[i].transform.localScale = endScales[i];
             targets[i].transform.position = endPositions[i];
         }
+        currentFloor = nextFloor;
+        Debug.Log("Traversal Complete");
         TraversalComplete();
 
         yield return null;
