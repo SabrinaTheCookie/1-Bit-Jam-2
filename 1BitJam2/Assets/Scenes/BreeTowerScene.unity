@@ -3523,7 +3523,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e9ddba695bd92d48a406ca847fc851d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  floorsInTower: 2
+  floorsInTower: 7
   ySpaceBetweenFloors: 10
 --- !u!114 &919157479
 MonoBehaviour:
@@ -3552,6 +3552,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentFloor: 0
+  isTraversing: 0
+  traversalInputDirection: 0
   traversalDuration: 0.75
   translateCurve:
     serializedVersion: 2
@@ -3597,12 +3599,10 @@ MonoBehaviour:
     m_RotationOrder: 4
   focusedFloorScale: {x: 1, y: 1, z: 1}
   unfocusedFloorScale: {x: 0.5, y: 0.5, z: 0.5}
-  traversalInputDirection: 0
+  fastForwardActive: 0
   timeHoldingTraversal: 0
   holdTimeForFastTraversal: 1
   fastTraversalSpeedMultiplier: 2
-  fastForwardActive: 0
-  isTraversing: 0
   multiTraversalSpeedMultiplier: 5
 --- !u!1 &1121421659
 GameObject:
@@ -7154,9 +7154,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Move to Bottom
-
-'
+  m_text: Move to 4
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
