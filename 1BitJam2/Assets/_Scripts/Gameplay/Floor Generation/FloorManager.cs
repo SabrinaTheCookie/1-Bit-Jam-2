@@ -14,6 +14,7 @@ public class FloorManager : MonoBehaviour
     private List<Floor> floors;
     public List<Floor> Floors => floors;
 
+    public FloorTraversal FloorTraversal => _floorTraversal;
 
     private void Awake()
     {
