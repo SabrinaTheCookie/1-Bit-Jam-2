@@ -32,7 +32,6 @@ public class TraversalUI : MonoBehaviour
         if(!_manager) _manager = FindObjectOfType<FloorManager>();
 
         int numberOfFloors = _manager.Floors.Count;
-        Debug.Log(numberOfFloors);
         for(int i = 0; i < numberOfFloors; i++)
         {
             int index = i;
