@@ -1,13 +1,13 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
 public class EnemyWaveManager : MonoBehaviour
 {
-    /* Manages the waves of enemies and the composition of enemy squads. Talks to BuildPhaseManager when the wave is complete. */
-
-    public BuildPhaseManager buildPhaseManager;
 
     public GameObject enemyPrefab;
     public EnemyBaseClass[] enemyTypes;
@@ -21,16 +21,26 @@ public class EnemyWaveManager : MonoBehaviour
 
     public GameObject droppedLootPrefab;
 
+    private bool hasInit;
 
-    public void Init()
+    public static event Action OnWaveComplete;
+    private void OnEnable()
     {
         enemySpawner = FindObjectOfType<EnemySpawner>();
-        BeginNewWave();
+        ActionPhase.OnActionPhaseStarted += BeginNewWave;
+        Enemy.OnEnemyDefeated += EnemyDefeated;
+    }
+    
+    private void OnDisable()
+    {
+        ActionPhase.OnActionPhaseStarted -= BeginNewWave;
+        Enemy.OnEnemyDefeated -= EnemyDefeated;
     }
 
 
     public void BeginNewWave()
     {
+        if (!enemySpawner) enemySpawner = FindObjectOfType<EnemySpawner>();
         StartCoroutine(NewWave());
         
     }
@@ -50,15 +60,19 @@ public class EnemyWaveManager : MonoBehaviour
             //enemy.SetData(enemyType);
 
             enemiesRemaining.Add(enemy);
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(ActionPhase.SecondsPerTick);
         }
     }
 
+    void EnemyDefeated(Enemy enemyDefeated)
+    {
+        enemiesRemaining.Remove(enemyDefeated);
+        if(enemiesRemaining.Count == 0) WaveComplete();
+    }
     public void WaveComplete()
     {
         enemiesRemaining.Clear();
-
-        buildPhaseManager.BeginBuildPhase();
+        OnWaveComplete?.Invoke();
     }
 
 

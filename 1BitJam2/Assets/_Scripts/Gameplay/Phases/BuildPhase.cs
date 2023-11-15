@@ -1,22 +1,54 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class BuildPhaseManager : MonoBehaviour
+public class BuildPhase : MonoBehaviour
 {
-    /* Manages the Build Phase between rounds. Talks to EnemyWaveManager when it's time to begin a new round. */
+    public static event Action OnBuildPhaseComplete; 
+    public static event Action OnBuildPhaseStarted;
+    
+    public float buildPhaseDuration = 5;
+    public float buildTimeRemaining;
 
-    public EnemyWaveManager enemyWaveManager;
+    private void OnEnable()
+    {
+        
+    }
 
+    private void OnDisable()
+    {
+        
+    }
+
+    void Update()
+    {
+        if (buildTimeRemaining > 0)
+        {
+            buildTimeRemaining -= Time.deltaTime;
+            if (buildTimeRemaining < 0)
+            {
+                buildTimeRemaining = -1;
+                BuildPhaseComplete();
+            }
+        }
+    }
 
     public void BeginBuildPhase()
     {
-        return;
+        OnBuildPhaseStarted?.Invoke();
+        buildTimeRemaining = buildPhaseDuration;
     }
 
-
+    public void EndBuildPhase()
+    {
+        buildTimeRemaining = -1;
+        BuildPhaseComplete();
+    }
+    
     public void BuildPhaseComplete()
     {
-        enemyWaveManager.BeginNewWave();
+        OnBuildPhaseComplete?.Invoke();
     }
 }

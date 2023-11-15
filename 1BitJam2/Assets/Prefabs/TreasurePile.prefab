@@ -508,7 +508,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6566399939481266824}
   - component: {fileID: 8940216202387128228}
-  - component: {fileID: 2198703184724639568}
+  - component: {fileID: 5725044255016415615}
   m_Layer: 0
   m_Name: TreasurePile
   m_TagString: TreasurePile
@@ -553,7 +553,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 1
---- !u!114 &2198703184724639568
+--- !u!114 &5725044255016415615
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -565,4 +565,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bde7f9db89d99984b83559fd67d497ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lootValue: 1000
+  lootValue: 999
