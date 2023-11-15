@@ -322,6 +322,7 @@ MonoBehaviour:
     type: 3}
   enemiesOnFloor: []
   enemyHolder: {fileID: 1326607296185433729}
+  towerHolder: {fileID: 5795723517057135749}
   towersOnFloor: []
   enemyPathRenderer: {fileID: 7833424222327628970}
   floorManager: {fileID: 0}
@@ -649,6 +650,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: []
   text: []
+  spriteRenderer: []
 --- !u!4 &7163142452780829475 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4013759018077101078, guid: cc6acdf550caa5b439851c9b6f72cd68,

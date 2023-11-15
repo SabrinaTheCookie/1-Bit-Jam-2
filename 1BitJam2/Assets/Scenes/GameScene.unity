@@ -5043,11 +5043,11 @@ RectTransform:
   m_Father: {fileID: 552634920}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 1}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -25, y: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 110, y: 110}
-  m_Pivot: {x: 1, y: 1}
+  m_Pivot: {x: 0, y: 0}
 --- !u!114 &1460138570
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5861,6 +5861,7 @@ GameObject:
   - component: {fileID: 1623155363}
   - component: {fileID: 1623155362}
   - component: {fileID: 1623155361}
+  - component: {fileID: 1623155365}
   m_Layer: 5
   m_Name: BuildPanel
   m_TagString: Untagged
@@ -5976,6 +5977,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1623155359}
   m_CullTransparentMesh: 1
+--- !u!114 &1623155365
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1623155359}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84e0dc5f3c296184aab4ab2c8df6af91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  towerInfoText: {fileID: 1704945920}
+  invalidPlacementMessage: Invalid Placement!
+  messageDuration: 3
 --- !u!1 &1704945918
 GameObject:
   m_ObjectHideFlags: 0
@@ -6009,10 +6025,10 @@ RectTransform:
   m_Father: {fileID: 739056142}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0.1, y: 0.1}
+  m_AnchorMax: {x: 0.9, y: 0.9}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 200, y: 50}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1704945920
 MonoBehaviour:
@@ -6034,7 +6050,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Tower
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2752925413df6f54ba2e7063f2ccd2ee, type: 2}
   m_sharedMaterial: {fileID: 7083672055414463080, guid: 2752925413df6f54ba2e7063f2ccd2ee,

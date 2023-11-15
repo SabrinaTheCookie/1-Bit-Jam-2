@@ -15,6 +15,7 @@ public class Floor : MonoBehaviour
     public GameObject treasurePile;
     public List<Enemy> enemiesOnFloor;
     public Transform enemyHolder;
+    public Transform towerHolder;
     public List<GameObject> towersOnFloor = new List<GameObject>();
     public Grid grid;
     public LineRenderer enemyPathRenderer;

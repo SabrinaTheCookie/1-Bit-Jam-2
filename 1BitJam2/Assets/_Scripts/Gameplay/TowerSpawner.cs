@@ -9,6 +9,8 @@ public class TowerSpawner : MonoBehaviour
     [SerializeField] private GameObject[] towerPrefabs;
     [SerializeField] private float towerTooCloseRange;
 
+    public static event Action<string> OnTowerSelected;
+    public static event Action OnInvalidPlacement;
     private bool isPlacing = false;
     private TURRET_TYPE selectedType;
     private Camera mainCam;
@@ -29,6 +31,7 @@ public class TowerSpawner : MonoBehaviour
                 RaycastHit hit;
                 if (Physics.Raycast(ray, out hit, 100.0f, layerMask))
                 {
+                    Floor floor = hit.transform.parent.GetComponent<Floor>();
                     Vector3 towerPosition = getGridPosition(hit.point);
                     bool validPlacement = true;
                     RaycastHit[] hits = Physics.SphereCastAll(towerPosition, towerTooCloseRange, Vector3.down);
@@ -40,32 +43,40 @@ public class TowerSpawner : MonoBehaviour
                     if (!validPlacement)
                     {
                         Debug.LogWarning("Invalid Placement!");
+                        OnInvalidPlacement?.Invoke();
                         return;
                     }
                     
-                    Instantiate(towerPrefabs[(int)selectedType], towerPosition, Quaternion.identity);
+                    GameObject tower = Instantiate(towerPrefabs[(int)selectedType], towerPosition, Quaternion.identity);
+                    tower.transform.SetParent(floor.towerHolder, true);
+                    floor.towersOnFloor.Add(tower);
+                    
                 }
                 isPlacing = false;
+                //Clear tower selected
+                OnTowerSelected?.Invoke("");
+                
             }
         }
     }
 
-    private Vector3 getGridPosition(Vector3 _posiiton){
+    private Vector3 getGridPosition(Vector3 position){
         return new Vector3(
-            Mathf.Round((_posiiton.x * 2f)) / 2f,
-            _posiiton.y,
-            Mathf.Round((_posiiton.z * 2f)) / 2f
+            Mathf.Round((position.x * 2f)) / 2f,
+            position.y,
+            Mathf.Round((position.z * 2f)) / 2f
             );
     }
 
     public void selectType(int type){ //Used with buttons on the UI
         isPlacing = true;
         selectedType = (TURRET_TYPE)type;
+        OnTowerSelected?.Invoke(selectedType.ToString());
     }
 
     public enum TURRET_TYPE {
         Arrow,
-        AoE,
+        AreaOfEffect,
         Sniper
     }
 }
