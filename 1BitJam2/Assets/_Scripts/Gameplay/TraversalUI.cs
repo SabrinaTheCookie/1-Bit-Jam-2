@@ -10,7 +10,7 @@ public class TraversalUI : MonoBehaviour
 
     public GameObject buttonPrefab;
 
-    private List<Button> _buttons = new List<Button>();
+    private List<TraversalButton> _buttons = new List<TraversalButton>();
 
     private float activeScale = 1.5f;
 
@@ -18,12 +18,16 @@ public class TraversalUI : MonoBehaviour
     {
         FloorTraversal.OnTraversal += UpdateButtons;
         FloorManager.OnFloorsSetup += GenerateButtons;
+        Floor.FloorNowHasEnemies += UpdateButtons;
+        Floor.FloorIsNowEmpty += UpdateButtons;
     }
 
     private void OnDisable()
     {
         FloorTraversal.OnTraversal -= UpdateButtons;
         FloorManager.OnFloorsSetup -= GenerateButtons;
+        Floor.FloorNowHasEnemies -= UpdateButtons;
+        Floor.FloorIsNowEmpty -= UpdateButtons;
 
     }
 
@@ -37,13 +41,17 @@ public class TraversalUI : MonoBehaviour
             int index = i;
             Button newButton = Instantiate(buttonPrefab, transform).GetComponent<Button>();
             newButton.onClick.AddListener(delegate { _manager.FloorTraversal.TraverseToFloor(index); }) ;
-            _buttons.Add(newButton);
+            _buttons.Add(newButton.GetComponent<TraversalButton>());
         }
         UpdateButtons();
 
     }
 
-    void UpdateButtons(int floor = -1)
+    void UpdateButtons()
+    {
+        UpdateButtons(-1);
+    }
+    void UpdateButtons(int floor)
     {
         if (floor == -1)
         {
@@ -57,13 +65,15 @@ public class TraversalUI : MonoBehaviour
                 // get bigger
                 _buttons[i].transform.localScale = Vector3.one*activeScale;
             }
-
             else
             {
                 // get smaller
                 _buttons[i].transform.localScale = (Vector3.one);
 
             }
+            
+            _buttons[i].ToggleEnemyIcon(_manager.Floors[i].enemiesOnFloor.Count > 0);
+            
         }
     }
 }

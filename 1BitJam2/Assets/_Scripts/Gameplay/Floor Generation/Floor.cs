@@ -1,10 +1,13 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
 public class Floor : MonoBehaviour
-{
-    private int _floorNumber;
+{ 
+    public int floorNumber;
     public Transform objectHolder;
     public GameObject stairUp;
     public GameObject stairDown;
@@ -17,30 +20,47 @@ public class Floor : MonoBehaviour
     public LineRenderer enemyPathRenderer;
     public FloorManager floorManager;
     public bool lastFloor = false;
+    public static event Action FloorNowHasEnemies;
+    public static event Action FloorIsNowEmpty;
 
+
+    private void OnEnable()
+    {
+        Enemy.OnEnemyChangedFloors += CheckIfEnemyIsThisFloor;
+        EnemySpawner.OnEnemySpawned += CheckIfEnemyIsThisFloor;
+        Enemy.OnEnemyDefeated += CheckIfEnemyIsThisFloor;
+    }
+
+    private void OnDisable()
+    {
+        Enemy.OnEnemyChangedFloors -= CheckIfEnemyIsThisFloor;
+        EnemySpawner.OnEnemySpawned -= CheckIfEnemyIsThisFloor;
+        Enemy.OnEnemyDefeated -= CheckIfEnemyIsThisFloor;
+
+    }
 
     public void SetupFloor(FloorManager manager, int floorNumber, int maxFloors)
     {
 
         floorManager = manager;
-        _floorNumber = floorNumber;
-        gameObject.name = $"Floor{_floorNumber}";
+        this.floorNumber = floorNumber;
+        gameObject.name = $"Floor{this.floorNumber}";
         //Setup grid
-        if (_floorNumber == floorManager.Floors.Count - 1)
+        if (this.floorNumber == floorManager.Floors.Count - 1)
         {
             lastFloor = true;
         }
         grid = new Grid(lastFloor);
         grid.path.DrawPath(enemyPathRenderer);
 
-        if (_floorNumber == 0)
+        if (this.floorNumber == 0)
         {
             //Is first floor, use spawner instead of stair up
             PlaceStairsDown(false);
             PlaceEnemySpawner();
 
         }
-        else if (_floorNumber == maxFloors - 1)
+        else if (this.floorNumber == maxFloors - 1)
         {
             //Is last floor, replace stairs Down with loot
             PlaceStairsUp();
@@ -165,9 +185,45 @@ public class Floor : MonoBehaviour
 
     public Floor GetNextFloor(bool descending)
     {
-        if (lastFloor && descending || _floorNumber == 0 &! descending) { return this; }
+        if (lastFloor && descending || floorNumber == 0 &! descending) { return this; }
         /* TO DO: This will throw an error if it's out of range! Throw exception. If at top, leave dungeon with loot - if at bottom, set enemy's advancing to false and steal gold. */
-        else if (descending) { return floorManager.Floors[_floorNumber + 1]; }
-        else { return floorManager.Floors[_floorNumber - 1]; }
+        else if (descending) { return floorManager.Floors[floorNumber + 1]; }
+        else { return floorManager.Floors[floorNumber - 1]; }
+    }
+
+    void CheckIfEnemyIsThisFloor(Enemy enemy, bool escaped)
+    {
+        if (enemiesOnFloor.Contains(enemy))
+        {
+            enemiesOnFloor.Remove(enemy);
+            if (enemiesOnFloor.Count == 0)
+            {
+                FloorIsNowEmpty?.Invoke();
+            }
+        }
+    }
+    void CheckIfEnemyIsThisFloor(int floor, Enemy enemy)
+    {
+        //Same floor
+        if (floor == floorNumber)
+        {
+            if (!enemiesOnFloor.Contains(enemy))
+            {
+                enemiesOnFloor.Add(enemy);
+                if (enemiesOnFloor.Count == 1)
+                {
+                    FloorNowHasEnemies?.Invoke();
+                }
+            }
+        }
+        //not same floor, check if it was on this floor and remove.
+        else if (enemiesOnFloor.Contains(enemy))
+        {
+            enemiesOnFloor.Remove(enemy);
+            if (enemiesOnFloor.Count == 0)
+            {
+                FloorIsNowEmpty?.Invoke();
+            }
+        }
     }
 }

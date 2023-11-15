@@ -18,9 +18,10 @@ public class KillCounter : MonoBehaviour
     }
 
 
-    void EnemyDefeated(Enemy enemy)
+    void EnemyDefeated(Enemy enemy, bool escaped)
     {
-        counter++;
+        if(!escaped)
+            counter++;
         text.text = $"{counter}";
     }
 }

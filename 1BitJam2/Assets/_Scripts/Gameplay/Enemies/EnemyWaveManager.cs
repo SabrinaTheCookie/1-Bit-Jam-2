@@ -64,7 +64,7 @@ public class EnemyWaveManager : MonoBehaviour
         }
     }
 
-    void EnemyDefeated(Enemy enemyDefeated)
+    void EnemyDefeated(Enemy enemyDefeated, bool escaped)
     {
         enemiesRemaining.Remove(enemyDefeated);
         if(enemiesRemaining.Count == 0) WaveComplete();

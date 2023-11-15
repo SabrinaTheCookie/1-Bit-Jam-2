@@ -23,7 +23,9 @@ public class Enemy : MonoBehaviour
 
     public ParticleSystem hitParticles;
 
-    public static event Action<Enemy> OnEnemyDefeated;
+    //<EnemyDefeated, escaped>
+    public static event Action<Enemy, bool> OnEnemyDefeated;
+    public static event Action<int, Enemy> OnEnemyChangedFloors;
 
 
     /* Essentially a constructor for the Enemy class, called by EnemySpawner */
@@ -71,7 +73,7 @@ public class Enemy : MonoBehaviour
     private void Defeated()
     {
         enemyWaveManager.DropLoot(currentLootHeld);
-        OnEnemyDefeated?.Invoke(this);
+        OnEnemyDefeated?.Invoke(this, false);
         /* Play Sound Effect or Particle ? */
         Destroy(gameObject);
     }
@@ -98,7 +100,7 @@ public class Enemy : MonoBehaviour
 
         //Just call enemy defeated to tell the wave manager to remove you :)
         //You defeated them but they took yo stuff
-        OnEnemyDefeated?.Invoke(this);
+        OnEnemyDefeated?.Invoke(this, true);
         /* Play Sound Effect or Particle ? */
         Destroy(gameObject);
     }
@@ -184,6 +186,8 @@ public class Enemy : MonoBehaviour
             Advance(currentFloor.grid.path.endPos);
             oldFloor.grid.SetCellOccupant(oldFloor.grid.path.startPos, null);
         }
+        
+        OnEnemyChangedFloors?.Invoke(currentFloor.floorNumber, this);
     }
     
     public void Retreat()

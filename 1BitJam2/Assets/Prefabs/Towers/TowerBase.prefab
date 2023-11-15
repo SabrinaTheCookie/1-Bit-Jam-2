@@ -49,7 +49,7 @@ MonoBehaviour:
   target: {fileID: 0}
   targetType: 0
   secondsBetweenAttacks: 0.5
-  towerDamage: 50
+  towerDamage: 1
   attackRadius: 3
   areaOfEffectRange: 1
   cost: 1
