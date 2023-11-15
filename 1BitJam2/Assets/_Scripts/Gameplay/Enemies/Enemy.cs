@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEditor;
 
 public class Enemy : MonoBehaviour
 {
@@ -12,7 +13,8 @@ public class Enemy : MonoBehaviour
 
     public float currentAttackPower;
 
-    public float currentMovementSpeed;
+    public float baseTickRate;
+    public float currentTickRate;
 
     public int currentLootHeld = 0;
 
@@ -31,7 +33,6 @@ public class Enemy : MonoBehaviour
         currentPosition = startingPosition;
         transform.SetParent(currentFloor.enemyHolder);
         SetData(enemyType);
-        StartCoroutine(TurnTick());
     }
 
 
@@ -46,7 +47,10 @@ public class Enemy : MonoBehaviour
         data = dataToSet;
         currentHealth = data.maxHealth;
         currentAttackPower = data.attackPower;
-        currentMovementSpeed = data.baseMovementSpeed;
+        baseTickRate = data.baseTickRate;
+        currentTickRate = data.baseTickRate;
+
+        transform.GetChild(0).localScale = new Vector3(ArrayUtility.IndexOf(enemyWaveManager.enemyTypes, dataToSet) * 0.025f + 0.2f, ArrayUtility.IndexOf(enemyWaveManager.enemyTypes, dataToSet) * 0.025f + 0.2f, ArrayUtility.IndexOf(enemyWaveManager.enemyTypes, dataToSet) * 0.025f + 0.2f);
     }
 
 
@@ -99,15 +103,15 @@ public class Enemy : MonoBehaviour
     
     public void ScaleMovementSpeed(float scalar)
     {
-        currentMovementSpeed *= scalar;
+        currentTickRate *= scalar;
     }
 
     public void ResetMovementSpeed()
     {
-        currentMovementSpeed = data.baseMovementSpeed;
+        currentTickRate = data.baseTickRate;
     }
     
-    public void AttemptToMove()
+    public EnemyWaveManager.TurnProgress AttemptToMove()
     {
         /* Check if a move is possible, and then call the relevant function. */
         Vector2 desiredPosition = currentFloor.grid.FindEnemyNextPosition(currentPosition, advancing);
@@ -115,9 +119,25 @@ public class Enemy : MonoBehaviour
         if (desiredPosition == currentPosition) { AttemptToChangeFloor(); }
         else
         {
-            if (currentFloor.grid.GetCellOccupant(desiredPosition) == null) { Advance(desiredPosition); }
-            // to do: swap places with another Enemy if this runs into another that's going in the opposite direction.
+            GameObject cellOccupant = currentFloor.grid.GetCellOccupant(desiredPosition);
+            if (cellOccupant == null) { Advance(desiredPosition); }
+            else if (cellOccupant.GetComponent<Enemy>() != null)
+            {
+                /* Swap places with another Enemy if this runs into another. */
+                if (cellOccupant.GetComponent<Enemy>().advancing != advancing || cellOccupant.GetComponent<Enemy>().currentTickRate < currentTickRate) 
+                {
+                    currentFloor.grid.SetCellOccupant(currentPosition, null);
+                    currentFloor.grid.SetCellOccupant(desiredPosition, null);
+                    cellOccupant.GetComponent<Enemy>().Advance(currentPosition);
+                    Advance(desiredPosition);
+                }
+
+                /* Then Move again, basically leap-frogging if they touch another enemy. */
+                return EnemyWaveManager.TurnProgress.Repeat;
+            }
         }
+
+        return EnemyWaveManager.TurnProgress.Complete;
     }
     
     public void Advance(Vector2 newPosition)
@@ -185,12 +205,7 @@ public class Enemy : MonoBehaviour
         /* Move one cell back along the path. */
     }
 
-    IEnumerator TurnTick()
-    {
-        while (alive)
-        {
-            yield return new WaitForSeconds(ActionPhase.SecondsPerTick);
-            AttemptToMove();
-        }
-    }
+
+
+
 }
