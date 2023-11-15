@@ -14,7 +14,7 @@ public class Enemy : MonoBehaviour
 
     public float currentMovementSpeed;
 
-    public float currentLootHeld = 0;
+    public int currentLootHeld = 0;
 
     public Floor currentFloor;
     public Vector2 currentPosition;
@@ -71,11 +71,11 @@ public class Enemy : MonoBehaviour
     }
 
 
-    public float CollectLoot(float lootAmount)
+    public int CollectLoot(int lootAmount)
     {
         /* Take loot up to carryCapacity, return the leftovers. */
 
-        float capacity = data.carryCapacity - currentLootHeld;
+        int capacity = data.carryCapacity - currentLootHeld;
 
         if (capacity < lootAmount) { currentLootHeld += capacity; }
         else { currentLootHeld += lootAmount; lootAmount = 0; } // To Do: Destroy DroppedLoot if this function returns 0.

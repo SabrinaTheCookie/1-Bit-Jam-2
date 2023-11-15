@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -16,6 +17,21 @@ public class BuildTimerUI : MonoBehaviour
         timerText = GetComponent<TextMeshProUGUI>();
     }
 
+    private void OnEnable()
+    {
+        GameColour.OnColourUpdated += ColourUpdate;
+    }
+
+    private void OnDisable()
+    {
+        GameColour.OnColourUpdated -= ColourUpdate;
+
+    }
+
+    void ColourUpdate(Color colour)
+    {
+        timerText.faceColor = colour;
+    }
     // Update is called once per frame
     void Update()
     {

@@ -13,17 +13,25 @@ public class PhasePopupUI : MonoBehaviour
     private void OnEnable()
     {
         PhaseController.OnPhaseChanged += ShowPopup;
+        GameColour.OnColourUpdated += ColourUpdate;
     }
     
     private void OnDisable()
     {
         PhaseController.OnPhaseChanged -= ShowPopup;
+        GameColour.OnColourUpdated -= ColourUpdate;
+
     }
 
     private void Awake()
     {
         phaseText = GetComponent<TextMeshProUGUI>();
         animator = GetComponent<Animator>();
+    }
+
+    void ColourUpdate(Color colour)
+    {
+        phaseText.faceColor = colour;
     }
 
     void ShowPopup(PhaseController.GamePhase phase)

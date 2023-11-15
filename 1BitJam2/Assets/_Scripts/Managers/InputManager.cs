@@ -19,8 +19,9 @@ public class InputManager : Singleton<InputManager>
     public static event Action<int> OnRotatePressed;
     public static event Action OnRotateReleased;
 
-    void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         if(playerInput == null) playerInput = GetComponent<PlayerInput>();
     }
     // Start is called before the first frame update
