@@ -5,17 +5,11 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GoldUI : MonoBehaviour
+public class ColourSetter : MonoBehaviour
 {
-    private Image image;
+    public Image image;
 
-    private TextMeshProUGUI text;
-
-    private void Awake()
-    {
-        image = GetComponentInChildren<Image>();
-        text = GetComponentInChildren<TextMeshProUGUI>();
-    }
+    public TextMeshProUGUI text;
 
     private void OnEnable()
     {
@@ -30,8 +24,10 @@ public class GoldUI : MonoBehaviour
 
     void ColourUpdate(Color colour)
     {
-        image.color = colour;
-        text.faceColor = colour;
+        if(image)
+            image.color = colour;
+        if(text)
+            text.faceColor = colour;
     }
     
 }
