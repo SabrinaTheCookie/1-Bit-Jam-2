@@ -3,7 +3,8 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - TreasurePile
   layers:
   - Default
   - TransparentFX
@@ -40,4 +41,13 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Background
+    uniqueID: 4287553143
+    locked: 0
+  - name: Game Elements
+    uniqueID: 161379627
+    locked: 0
+  - name: UI
+    uniqueID: 869856923
     locked: 0
