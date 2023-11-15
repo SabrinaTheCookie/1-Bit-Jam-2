@@ -7,9 +7,11 @@ using UnityEngine.UI;
 
 public class ColourSetter : MonoBehaviour
 {
-    public Image image;
+    public Image[] image;
 
-    public TextMeshProUGUI text;
+    public TextMeshProUGUI[] text;
+
+    public SpriteRenderer[] spriteRenderer;
 
     private void OnEnable()
     {
@@ -24,10 +26,12 @@ public class ColourSetter : MonoBehaviour
 
     void ColourUpdate(Color colour)
     {
-        if(image)
-            image.color = colour;
-        if(text)
-            text.faceColor = colour;
+        foreach(Image obj in image)
+            obj.color = colour;
+        foreach(TextMeshProUGUI obj in text)
+            obj.faceColor = colour;
+        foreach(SpriteRenderer obj in spriteRenderer)
+            obj.color = colour;
     }
     
 }

@@ -5,12 +5,11 @@ using UnityEngine;
 
 public class TowerBase : MonoBehaviour
 {
-    [Header("Componenets")]
-    private SphereCollider sphereCollider;
+    [Header("Componenets")] 
+    public TowerRange towerRange;
 
     [Header("Tower Attributes")]
     public Enemy target;
-    private List<Enemy> validTargets = new List<Enemy>();
     [Serializable] public enum TargetType { Closest, Furthest, HighestHealth, LowestHealth}
     public TargetType targetType;
     public float secondsBetweenAttacks;
@@ -22,8 +21,7 @@ public class TowerBase : MonoBehaviour
 
     void Awake()
     {
-        sphereCollider = gameObject.GetComponent<SphereCollider>();
-        sphereCollider.radius = attackRadius;
+        towerRange.towerRange = attackRadius;
         attackTimer = secondsBetweenAttacks;
     }
     void Update()
@@ -37,7 +35,7 @@ public class TowerBase : MonoBehaviour
                 Attack();
             }
         }
-        else if(attackTimer < 0 && validTargets.Count != 0)
+        else if(attackTimer < 0 && towerRange.validTargets.Count != 0)
         {
             Attack();
         }
@@ -47,7 +45,7 @@ public class TowerBase : MonoBehaviour
     {
         SelectTarget();
         //No target found? Dont attack.
-        if (target == null) return;
+        if (target == null || !towerRange.validTargets.Contains(target)) return;
 
         attackTimer = secondsBetweenAttacks;
 
@@ -73,7 +71,7 @@ public class TowerBase : MonoBehaviour
 
     void SelectTarget()
     {
-        foreach(Enemy enemy in validTargets)
+        foreach(Enemy enemy in towerRange.validTargets)
         {
             if (!enemy) continue;
             if (!target) target = enemy;
@@ -112,27 +110,6 @@ public class TowerBase : MonoBehaviour
         }
     }
 
-    void OnTriggerEnter(Collider collision)
-    {
-        if(collision.gameObject.CompareTag("Enemy"))
-        {
-            Enemy enemy = collision.gameObject.GetComponent<Enemy>();
-            if(!validTargets.Contains(enemy))
-                validTargets.Add(enemy);
-            
-        }
-    }
-
-    void OnTriggerExit(Collider collision)
-    {
-        if (collision.gameObject.CompareTag("Enemy"))
-        {
-            Enemy enemy = collision.gameObject.GetComponent<Enemy>();
-
-            if (validTargets.Contains(enemy))
-                validTargets.Remove(enemy);
-            if (target == enemy) target = null;
-        }
-    }
+    
 
 }
