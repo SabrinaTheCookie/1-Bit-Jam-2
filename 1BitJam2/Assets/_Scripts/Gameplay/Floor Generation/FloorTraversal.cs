@@ -10,7 +10,9 @@ public class FloorTraversal : MonoBehaviour
     private FloorManager _manager;
     public static event Action OnTraversalStarted;
     public static event Action OnTraversalEnded;
-    
+    public static event Action<int> OnTraversal;
+
+
     [Header("Traversal")]
     public int currentFloor;
     public bool isTraversing;
@@ -142,6 +144,9 @@ public class FloorTraversal : MonoBehaviour
         {
             StartTraversal(traversalInputDirection);
         }
+
+        OnTraversal?.Invoke(currentFloor);
+        
     }
 
     private IEnumerator TraverseOverTime(List<Floor> targets, int traversal, int nextFloor, int floorsToTraverse=1)
