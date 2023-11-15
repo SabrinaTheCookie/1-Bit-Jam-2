@@ -17,26 +17,22 @@ public class TraversalUI : MonoBehaviour
     private void OnEnable()
     {
         FloorTraversal.OnTraversal += UpdateButtons;
+        FloorManager.OnFloorsSetup += GenerateButtons;
     }
 
     private void OnDisable()
     {
         FloorTraversal.OnTraversal -= UpdateButtons;
-    }
+        FloorManager.OnFloorsSetup -= GenerateButtons;
 
-    private void Start()
-    {
-        GenerateButtons();
-    }
-
-    void Awake()
-    {
-        _manager = FindObjectOfType<FloorManager>();
     }
 
     void GenerateButtons()
     {
+        if(!_manager) _manager = FindObjectOfType<FloorManager>();
+
         int numberOfFloors = _manager.Floors.Count;
+        Debug.Log(numberOfFloors);
         for(int i = 0; i < numberOfFloors; i++)
         {
             int index = i;

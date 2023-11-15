@@ -16,13 +16,19 @@ public class FloorManager : MonoBehaviour
 
     public FloorTraversal FloorTraversal => _floorTraversal;
 
+    public static event Action OnFloorsSetup;
+
     private void Awake()
     {
+        _floorTraversal = GetComponent<FloorTraversal>();
         _floorBuilder = GetComponent<FloorBuilder>();
+        
+    }
+
+    void Start()
+    {
         floors = _floorBuilder.BuildFloor(floorsInTower);
         OrganizeFloors();
-
-        _floorTraversal = GetComponent<FloorTraversal>();
     }
 
     private void OrganizeFloors()
@@ -37,6 +43,7 @@ public class FloorManager : MonoBehaviour
 
             floors[i].SetupFloor(this, i, floors.Count);
         }
+        OnFloorsSetup?.Invoke();
     }
 
     
