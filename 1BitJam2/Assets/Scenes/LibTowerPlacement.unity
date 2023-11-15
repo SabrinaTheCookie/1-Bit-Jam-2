@@ -2034,7 +2034,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   layerMask:
     serializedVersion: 2
-    m_Bits: 2147483647
+    m_Bits: 1024
   towerPrefabs:
   - {fileID: 4878457481674084711, guid: cc0aa01299bfb124bab7b6a8cdaf0f9f, type: 3}
   - {fileID: 4878457481674084711, guid: cc0aa01299bfb124bab7b6a8cdaf0f9f, type: 3}

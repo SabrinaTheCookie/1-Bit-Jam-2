@@ -21,6 +21,8 @@ public class Enemy : MonoBehaviour
     bool advancing = true;
     bool alive = true;
 
+    public ParticleSystem hitParticles;
+
     public static event Action<Enemy> OnEnemyDefeated;
 
 
@@ -59,6 +61,10 @@ public class Enemy : MonoBehaviour
         if (currentHealth <= 0)
         {
             Defeated();
+        }
+        else
+        {
+            hitParticles.Play();
         }
     }
 
