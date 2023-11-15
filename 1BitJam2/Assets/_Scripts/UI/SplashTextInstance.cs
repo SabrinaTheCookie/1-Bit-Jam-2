@@ -15,9 +15,16 @@ public class SplashTextInstance : MonoBehaviour
 
     [Header("Config:")]
     public float lifeTime = 1;
+    [Header("Position over time:")]
     public Vector2 startPositionOffset;
     public Vector2 endPosition;
     public Vector2 endPositionRandomisation;
+    [Header("Scaling over time:")]
+    public float scalingStartTime = 0.5f;
+    public Vector2 startScaleFactor;
+    private Vector2 startScale;
+    public Vector2 endScaleFactor;
+    private Vector2 endScale;
 
 
     // Update is called once per frame
@@ -33,6 +40,9 @@ public class SplashTextInstance : MonoBehaviour
 
         rct.anchoredPosition = Vector2.Lerp(startPosition, endPosition, t);
 
+        // For use in scaling
+        float scalingT = ((l- scalingStartTime) / lifeTime) * (1/scalingStartTime);
+        rct.sizeDelta = Vector2.Lerp(startScale, endScale, scalingT);
 
         if (l > lifeTime)
         {
@@ -56,6 +66,9 @@ public class SplashTextInstance : MonoBehaviour
         );
 
         text.text = content;
+
+        startScale = rct.sizeDelta * startScaleFactor;
+        endScale = rct.sizeDelta * endScaleFactor;
     }
 
     public void FinishedDisplaying()

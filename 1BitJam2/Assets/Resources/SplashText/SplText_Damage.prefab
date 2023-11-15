@@ -96,6 +96,8 @@ MonoBehaviour:
   startPositionOffset: {x: 0, y: 25}
   endPosition: {x: 0, y: 20}
   endPositionRandomisation: {x: 5, y: 5}
+  startScaleFactor: {x: 1, y: 1}
+  endScaleFactor: {x: 0, y: 0}
 --- !u!1 &8127345551034967954
 GameObject:
   m_ObjectHideFlags: 0
