@@ -1121,7 +1121,7 @@ RectTransform:
   m_Children:
   - {fileID: 768353400}
   m_Father: {fileID: 552634920}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.1}
   m_AnchorMax: {x: 0.5, y: 0.1}
@@ -1440,6 +1440,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1623155360}
   - {fileID: 1460138569}
   - {fileID: 1311690028}
   - {fileID: 1906065022}
@@ -1447,7 +1448,6 @@ RectTransform:
   - {fileID: 714829236}
   - {fileID: 1764757589}
   - {fileID: 1604978069}
-  - {fileID: 1623155360}
   - {fileID: 915373792496273331}
   m_Father: {fileID: 357498895}
   m_RootOrder: 1
@@ -1872,7 +1872,7 @@ RectTransform:
   - {fileID: 2065792776}
   - {fileID: 820467767}
   m_Father: {fileID: 552634920}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.1, y: 0.9}
   m_AnchorMax: {x: 0.1, y: 0.9}
@@ -4436,7 +4436,7 @@ RectTransform:
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 552634920}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.9}
   m_AnchorMax: {x: 0.5, y: 0.9}
@@ -4648,7 +4648,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bfada9afd2c94c49a3dfeb43d5978db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  secondsPerTick: 0.2
+  tickMultiplier: 1
 --- !u!114 &1313500119
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4683,15 +4683,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7d0e75966cacc1243aa1ab0d109f92ce, type: 2}
   enemySpawner: {fileID: 0}
   waveNumber: 0
-  lightEnemiesRemaining: []
-  mediumEnemiesRemaining: []
-  heavyEnemiesRemaining: []
   enemiesRemaining: []
   minimumSquadSize: 3
   currentSquadSize: 0
-  numberOfSwapPositionsAllowed: 4
-  droppedLootPrefab: {fileID: 2241583606951420458, guid: affe6963cedb7a44d9be1b42198cb7bb,
-    type: 3}
+  timeBetweenSpawns: 0.5
 --- !u!114 &1313500121
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4707,7 +4702,7 @@ MonoBehaviour:
   sobelFilterMaterial: {fileID: 2100000, guid: 0eee4f0f5129fa147a10a48607f30adb, type: 2}
   enemyLineMaterial: {fileID: 2100000, guid: bf6b29320093e4141b49c4f7eb5ca54d, type: 2}
   colourLerp: 1
-  _CurrentColor: {r: 0, g: 0, b: 0, a: 0}
+  _CurrentColor: {r: 0.013375282, g: 1, b: 0, a: 0}
   lerpAColour: {r: 0.8509804, g: 0, b: 0, a: 1}
   lerpBColour: {r: 0, g: 1, b: 0, a: 1}
 --- !u!1 &1427992344
@@ -4890,7 +4885,7 @@ RectTransform:
   m_Children:
   - {fileID: 1427992345}
   m_Father: {fileID: 552634920}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -5511,7 +5506,7 @@ RectTransform:
   - {fileID: 966236028}
   - {fileID: 1568163017}
   m_Father: {fileID: 552634920}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.689, y: 0.84300005}
   m_AnchorMax: {x: 0.87275016, y: 0.94059193}
@@ -5734,7 +5729,7 @@ RectTransform:
   - {fileID: 1303420278}
   - {fileID: 1916939764}
   m_Father: {fileID: 552634920}
-  m_RootOrder: 7
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.8, y: 0.2}
   m_AnchorMax: {x: 0.95, y: 0.8}
@@ -5855,6 +5850,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lootpiles: []
   totalLoot: 0
+  maxGold: 0
 --- !u!1 &1704945918
 GameObject:
   m_ObjectHideFlags: 0
@@ -6324,7 +6320,7 @@ RectTransform:
   m_Children:
   - {fileID: 1607090333}
   m_Father: {fileID: 552634920}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.026895836, y: 0.18177707}
   m_AnchorMax: {x: 0.156, y: 0.7931477}
@@ -6503,7 +6499,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 552634920}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.83}
   m_AnchorMax: {x: 0.5, y: 0.83}

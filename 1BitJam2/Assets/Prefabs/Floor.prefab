@@ -318,11 +318,13 @@ MonoBehaviour:
   stairDown: {fileID: 5005598355448246541, guid: 28a9a986a23b594468efd24e7c48a525,
     type: 3}
   spawner: {fileID: 2970084142218554708, guid: b403e84854e7fc142ba9b5be3cf43fee, type: 3}
-  treasurePile: {fileID: 8094892543307074512, guid: e82d4ba2c83f4ea448460f3932c791d6,
+  lootPile: {fileID: 0}
+  lootPilePrefab: {fileID: 8094892543307074512, guid: e82d4ba2c83f4ea448460f3932c791d6,
     type: 3}
   enemiesOnFloor: []
   enemyHolder: {fileID: 1326607296185433729}
   towerHolder: {fileID: 5795723517057135749}
+  lootHolder: {fileID: 1656149437183669143}
   towersOnFloor: []
   enemyPathRenderer: {fileID: 7833424222327628970}
   floorManager: {fileID: 0}

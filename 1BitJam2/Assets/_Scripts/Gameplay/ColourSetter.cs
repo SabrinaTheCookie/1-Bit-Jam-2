@@ -26,7 +26,7 @@ public class ColourSetter : MonoBehaviour
 
     private void Awake()
     {
-        ColourUpdate(GameColour.CurrentColor);
+        ColourUpdate(GameColour.CurrentColour);
     }
 
     void ColourUpdate(Color colour)

@@ -14,16 +14,12 @@ public class EnemyWaveManager : MonoBehaviour
     public EnemySpawner enemySpawner;
 
     public int waveNumber;
-    public List<Enemy> lightEnemiesRemaining;
-    public List<Enemy> mediumEnemiesRemaining;
-    public List<Enemy> heavyEnemiesRemaining;
     public List<Enemy> enemiesRemaining;
 
     public int minimumSquadSize = 4;
     public int currentSquadSize;
-    public int numberOfSwapPositionsAllowed = 4;
+    public float timeBetweenSpawns;
 
-    public GameObject droppedLootPrefab;
 
     private bool hasInit;
 
@@ -63,153 +59,22 @@ public class EnemyWaveManager : MonoBehaviour
             Enemy enemy = enemySpawner.SpawnEnemy(enemyType);
             //enemy.SetData(enemyType);
 
-            if (enemyType == enemyTypes[0]) { lightEnemiesRemaining.Add(enemy); }
-            else if (enemyType == enemyTypes[1]) { mediumEnemiesRemaining.Add(enemy); }
-            else { heavyEnemiesRemaining.Add(enemy); }
-
             enemiesRemaining.Add(enemy);
-            yield return new WaitForSeconds(ActionPhase.SecondsPerTick);
+            yield return new WaitForSeconds(timeBetweenSpawns);
         }
 
-        StartCoroutine(LightEnemyTick());
-        StartCoroutine(MediumEnemyTick());
-        StartCoroutine(HeavyEnemyTick());
     }
 
-
-    public enum TurnProgress 
-    {
-        Incomplete, Repeat, Complete
-    }
-
-
-
-    IEnumerator LightEnemyTick() 
-    {
-        while (lightEnemiesRemaining.Count > 0)
-        {
-            yield return new WaitForSeconds(enemyTypes[0].baseTickRate);
-
-            foreach (Enemy enemy in enemiesRemaining)
-            {
-                if (enemy.baseTickRate == enemyTypes[0].baseTickRate)
-                {
-                    TurnProgress turnProgress = enemy.AttemptToMove();
-                    while (turnProgress == TurnProgress.Incomplete)
-                    {
-                        yield return new WaitForEndOfFrame();
-                    }
-                    if (turnProgress == TurnProgress.Repeat)
-                    {
-                        for (int i = 0; i < numberOfSwapPositionsAllowed; i++)
-                        {
-                            if (turnProgress == TurnProgress.Repeat) 
-                            {
-                                turnProgress = enemy.AttemptToMove();
-                                while (turnProgress == TurnProgress.Incomplete)
-                                {
-                                    yield return new WaitForEndOfFrame();
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        StopCoroutine(LightEnemyTick());
-    }
-
-
-    IEnumerator MediumEnemyTick() 
-    {
-        while (mediumEnemiesRemaining.Count > 0)
-        {
-            yield return new WaitForSeconds(enemyTypes[1].baseTickRate);
-
-            foreach (Enemy enemy in enemiesRemaining)
-            {
-                if (enemy.baseTickRate == enemyTypes[1].baseTickRate) 
-                {
-                    TurnProgress turnProgress = enemy.AttemptToMove();
-                    while (turnProgress == TurnProgress.Incomplete)
-                    {
-                        yield return new WaitForEndOfFrame();
-                    }
-                    if (turnProgress == TurnProgress.Repeat)
-                    {
-                        for (int i = 0; i < numberOfSwapPositionsAllowed; i++)
-                        {
-                            if (turnProgress == TurnProgress.Repeat) 
-                            {
-                                turnProgress = enemy.AttemptToMove();
-                                while (turnProgress == TurnProgress.Incomplete)
-                                {
-                                    yield return new WaitForEndOfFrame();
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        StopCoroutine(MediumEnemyTick());
-    }
-
-
-    IEnumerator HeavyEnemyTick() 
-    {
-        while (mediumEnemiesRemaining.Count > 0)
-        {
-            yield return new WaitForSeconds(enemyTypes[2].baseTickRate);
-
-            foreach (Enemy enemy in enemiesRemaining)
-            {
-                if (enemy.baseTickRate == enemyTypes[2].baseTickRate)
-                {
-                    TurnProgress turnProgress = enemy.AttemptToMove();
-                    while (turnProgress == TurnProgress.Incomplete)
-                    {
-                        yield return new WaitForEndOfFrame();
-                    }
-                    if (turnProgress == TurnProgress.Repeat)
-                    {
-                        for (int i = 0; i < numberOfSwapPositionsAllowed; i++)
-                        {
-                            if (turnProgress == TurnProgress.Repeat) 
-                            {
-                                turnProgress = enemy.AttemptToMove();
-                                while (turnProgress == TurnProgress.Incomplete)
-                                {
-                                    yield return new WaitForEndOfFrame();
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        StopCoroutine(HeavyEnemyTick()); 
-    }
-    
 
     void EnemyDefeated(Enemy enemyDefeated, bool escaped = false)
     {
-        if (lightEnemiesRemaining.Contains(enemyDefeated)) { lightEnemiesRemaining.Remove(enemyDefeated); }
-        else if (mediumEnemiesRemaining.Contains(enemyDefeated)) { mediumEnemiesRemaining.Remove(enemyDefeated); }
-        else { heavyEnemiesRemaining.Remove(enemyDefeated); }
-
         enemiesRemaining.Remove(enemyDefeated);
         
         if(enemiesRemaining.Count == 0) WaveComplete();
     }
     public void WaveComplete()
     {
-        lightEnemiesRemaining.Clear();
-        mediumEnemiesRemaining.Clear();
-        heavyEnemiesRemaining.Clear();
+        waveNumber++;
         OnWaveComplete?.Invoke();
     }
 

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class GameColour : Singleton<GameColour>
 {
@@ -9,8 +10,8 @@ public class GameColour : Singleton<GameColour>
     public Material enemyLineMaterial;
     private float _colourLerp;
     public float colourLerp;
-    public Color _CurrentColor;
-    public static Color CurrentColor;
+    public Color currentColour;
+    public static Color CurrentColour;
     public Color lerpAColour;
     public Color lerpBColour;
 
@@ -26,9 +27,9 @@ public class GameColour : Singleton<GameColour>
         GameLootController.OnLootUpdate -= ChangeColour;
     }
 
-    private void Start()
+    void Start()
     {
-        ChangeColour(colourLerp);
+        ChangeColour(1f);
     }
 
     void Update()
@@ -38,17 +39,22 @@ public class GameColour : Singleton<GameColour>
 
     void ChangeColour(int currentGold)
     {
-        ChangeColour(currentGold / GameLootController.Instance.maxGold);
+        ChangeColour((float)currentGold / GameLootController.Instance.maxGold);
     }
 
     void ChangeColour(float lerp)
     {
-        _colourLerp = lerp;
-        CurrentColor = Color.Lerp(lerpAColour, lerpBColour, _colourLerp);
-        OnColourUpdated?.Invoke(CurrentColor);
+        _colourLerp = colourLerp = lerp;
+        Color.RGBToHSV(lerpAColour,out var h1,out var s1,out var v1);
+        Color.RGBToHSV(lerpBColour,out var h2,out var s2,out var v2);
+        float hLerp = Mathf.Lerp(h1, h2, _colourLerp);
+        CurrentColour = currentColour= Color.HSVToRGB(hLerp, s1, v1);
+        
+        //CurrentColour = currentColour = Color.Lerp(lerpAColour, lerpBColour, _colourLerp);
         if(sobelFilterMaterial)
-            sobelFilterMaterial.SetColor("_Outline_Colour", CurrentColor);
+            sobelFilterMaterial.SetColor("_Outline_Colour", CurrentColour);
         if(enemyLineMaterial)
-            enemyLineMaterial.SetColor("_LineColour", CurrentColor);
+            enemyLineMaterial.SetColor("_LineColour", CurrentColour);
+        OnColourUpdated?.Invoke(CurrentColour);
     }
 }

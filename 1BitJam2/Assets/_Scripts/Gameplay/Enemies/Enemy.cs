@@ -15,6 +15,7 @@ public class Enemy : MonoBehaviour
 
     public float baseTickRate;
     public float currentTickRate;
+    private float tickTimer;
 
     public int currentLootHeld = 0;
 
@@ -22,6 +23,8 @@ public class Enemy : MonoBehaviour
     public Vector2 currentPosition;
     bool advancing = true;
     bool alive = true;
+    public int maxJumpAttempts;
+    private int currentJumpAttempts;
 
     public GameObject lootPrefab;
 
@@ -39,12 +42,32 @@ public class Enemy : MonoBehaviour
         currentPosition = startingPosition;
         transform.SetParent(currentFloor.enemyHolder);
         SetData(enemyType);
+        tickTimer = currentTickRate;
     }
 
 
     private void Awake()
     {
         enemyWaveManager = FindObjectOfType<EnemyWaveManager>();
+    }
+
+    void Update()
+    {
+        if (!alive) return;
+
+        if (tickTimer > 0)
+        {
+            tickTimer -= Time.deltaTime;
+
+            if (tickTimer <= 0)
+            {
+                for (int i = 0; i < maxJumpAttempts; i++)
+                {
+                    if (AttemptToMove()) break;
+                }
+                tickTimer = currentTickRate / ActionPhase.TickMultiplier;
+            }
+        }
     }
 
 
@@ -79,6 +102,7 @@ public class Enemy : MonoBehaviour
 
     private void Defeated()
     {
+        alive = false;
         DropLoot(currentLootHeld);
         OnEnemyDefeated?.Invoke(this, false);
         /* Play Sound Effect or Particle ? */
@@ -132,7 +156,7 @@ public class Enemy : MonoBehaviour
         currentTickRate = data.baseTickRate;
     }
     
-    public EnemyWaveManager.TurnProgress AttemptToMove()
+    public bool AttemptToMove()
     {
         /* Check if a move is possible, and then call the relevant function. */
         Vector2 desiredPosition = currentFloor.grid.FindEnemyNextPosition(currentPosition, advancing);
@@ -146,7 +170,7 @@ public class Enemy : MonoBehaviour
             {
                 Enemy occupant = cellOccupant.GetComponent<Enemy>();
                 /* Swap places with another Enemy if this runs into another. */
-                if (occupant.advancing != advancing || occupant.currentTickRate < currentTickRate) 
+                if (occupant.advancing != advancing || occupant.currentTickRate > currentTickRate) 
                 {
                     currentFloor.grid.SetCellOccupant(currentPosition, null);
                     currentFloor.grid.SetCellOccupant(desiredPosition, null);
@@ -155,11 +179,11 @@ public class Enemy : MonoBehaviour
                 }
 
                 /* Then Move again, basically leap-frogging if they touch another enemy. */
-                return EnemyWaveManager.TurnProgress.Repeat;
+                return false;
             }
         }
 
-        return EnemyWaveManager.TurnProgress.Complete;
+        return true;
     }
     
     public void Advance(Vector2 newPosition)
@@ -181,7 +205,7 @@ public class Enemy : MonoBehaviour
         {
             if (currentFloor.lastFloor)
             {
-                currentFloor.treasurePile.GetComponent<Loot>().TakeLoot(data.carryCapacity - currentLootHeld);;
+                currentFloor.lootPile.GetComponent<Loot>().TakeLoot(data.carryCapacity - currentLootHeld);;
                 ExitDungeon(); // To Do? Remove this line.
             }
             else if (nextFloor.grid.GetCellOccupant(nextFloor.grid.path.startPos) == null)

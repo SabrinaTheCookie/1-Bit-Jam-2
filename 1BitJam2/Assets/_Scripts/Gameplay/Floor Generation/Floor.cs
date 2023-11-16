@@ -12,7 +12,8 @@ public class Floor : MonoBehaviour
     public GameObject stairUp;
     public GameObject stairDown;
     public GameObject spawner;
-    public GameObject treasurePile;
+    public Loot lootPile;
+    public GameObject lootPilePrefab;
     public List<Enemy> enemiesOnFloor;
     public Transform enemyHolder;
     public Transform towerHolder;
@@ -66,7 +67,7 @@ public class Floor : MonoBehaviour
         {
             //Is last floor, replace stairs Down with loot
             PlaceStairsUp();
-            PlaceTreasurePile();
+            PlaceLootPile();
         }
         else
         {
@@ -141,9 +142,10 @@ public class Floor : MonoBehaviour
 
 
 
-    void PlaceTreasurePile()
+    void PlaceLootPile()
     {
-        treasurePile = Instantiate(treasurePile, objectHolder);
+        lootPile = Instantiate(lootPilePrefab, objectHolder).GetComponent<Loot>();
+        lootPile.Init();
     }
 
     void PlaceEnemySpawner()

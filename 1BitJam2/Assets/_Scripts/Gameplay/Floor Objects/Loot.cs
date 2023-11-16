@@ -12,11 +12,11 @@ public class Loot : MonoBehaviour
     public static event Action<Loot> OnLootChanged;
     public static event Action<Loot> OnLootEmpty;
 
-    public void Init(int value)
+    public void Init(int value=0)
     {
         if (hasInit) return;
         hasInit = true;
-
+        
         RaycastHit hit;
         Physics.SphereCast(transform.position, 1, Vector3.down, out hit, gameObject.layer);
         if(hit.transform)
@@ -25,7 +25,8 @@ public class Loot : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-        lootValue = value;
+        if(value != 0)
+            lootValue = value;
         OnLootCreated?.Invoke(this);
     }
 

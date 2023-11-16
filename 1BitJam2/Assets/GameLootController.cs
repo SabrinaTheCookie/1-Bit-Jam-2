@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameLootController : Singleton<GameLootController>
@@ -56,8 +57,9 @@ public class GameLootController : Singleton<GameLootController>
         }
         if(totalLoot != lootCount)
         {
-            OnLootUpdate?.Invoke(lootCount);
             totalLoot = lootCount;
+            if (maxGold == 0) maxGold = totalLoot;
+            OnLootUpdate?.Invoke(lootCount);
         }
         
     }

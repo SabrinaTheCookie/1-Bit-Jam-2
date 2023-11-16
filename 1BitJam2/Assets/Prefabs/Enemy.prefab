@@ -138,6 +138,7 @@ MonoBehaviour:
   currentLootHeld: 0
   currentFloor: {fileID: 0}
   currentPosition: {x: 0, y: 0}
+  maxJumpAttempts: 4
   lootPrefab: {fileID: 8094892543307074512, guid: e82d4ba2c83f4ea448460f3932c791d6,
     type: 3}
   hitParticles: {fileID: 5706263747102285445}
