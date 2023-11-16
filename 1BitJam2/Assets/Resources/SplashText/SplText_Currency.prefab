@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6137110788643684275}
   - component: {fileID: 6137110788643684274}
   - component: {fileID: 6137110788643684284}
+  - component: {fileID: 3975998654895053875}
   m_Layer: 5
   m_Name: SplText_Currency
   m_TagString: Untagged
@@ -38,7 +39,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 15, y: 15}
+  m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6137110788643684275
 CanvasRenderer:
@@ -55,7 +56,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6137110788643684272}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -93,12 +94,28 @@ MonoBehaviour:
   l: 0
   text: {fileID: 6137110789866429099}
   lifeTime: 1
-  startPositionOffset: {x: 0, y: 10}
-  endPosition: {x: 0, y: 15}
-  endPositionRandomisation: {x: 5, y: 0}
+  startPositionOffset: {x: 0, y: 50}
+  endPosition: {x: 0, y: 50}
+  endPositionRandomisation: {x: 10, y: 20}
   scalingStartTime: 0.5
   startScaleFactor: {x: 1, y: 1}
   endScaleFactor: {x: 0, y: 0}
+--- !u!114 &3975998654895053875
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6137110788643684272}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f4a5ad079eae13438759fa5e3496586, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  image: []
+  text:
+  - {fileID: 6137110789866429099}
+  spriteRenderer: []
 --- !u!1 &6137110789866429097
 GameObject:
   m_ObjectHideFlags: 0
@@ -167,9 +184,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: -1
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 2752925413df6f54ba2e7063f2ccd2ee, type: 2}
-  m_sharedMaterial: {fileID: 7083672055414463080, guid: 2752925413df6f54ba2e7063f2ccd2ee,
-    type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 359dee6c3b77fcf4ea7942ad2b4a1ae5, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: 56273171c2ea8b945a150dcea1ba12e9, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -193,7 +209,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 10.65
+  m_fontSize: 43.1
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1

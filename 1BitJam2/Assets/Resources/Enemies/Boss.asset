@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 465b54c8eee6da140805c33b975a38e5, type: 3}
-  m_Name: Light
+  m_Name: Boss
   m_EditorClassIdentifier: 
-  enemyClass: Light
-  maxHealth: 30
-  attackPower: 10
-  baseTickRate: 0.3
-  carryCapacity: 20
-  soulsOnDeath: 1
-  waveNumberToUnlock: 3
+  enemyClass: Boss
+  maxHealth: 1000
+  attackPower: 50
+  baseTickRate: 1.5
+  carryCapacity: 200
+  soulsOnDeath: 5
+  waveNumberToUnlock: 10
   sprite: {fileID: 0}

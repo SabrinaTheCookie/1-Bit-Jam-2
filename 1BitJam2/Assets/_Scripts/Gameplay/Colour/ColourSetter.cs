@@ -24,6 +24,11 @@ public class ColourSetter : MonoBehaviour
 
     }
 
+    private void Awake()
+    {
+        ColourUpdate(GameColour.CurrentColour);
+    }
+
     void ColourUpdate(Color colour)
     {
         foreach(Image obj in image)

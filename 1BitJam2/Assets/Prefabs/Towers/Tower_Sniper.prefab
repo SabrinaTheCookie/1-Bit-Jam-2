@@ -14,6 +14,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2160547366361891352, guid: b4dfe15502131ed4ea777d0d1c3162e5,
         type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2160547366361891352, guid: b4dfe15502131ed4ea777d0d1c3162e5,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2160547366361891352, guid: b4dfe15502131ed4ea777d0d1c3162e5,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2160547366361891352, guid: b4dfe15502131ed4ea777d0d1c3162e5,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -69,13 +84,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7396710818696382000, guid: b4dfe15502131ed4ea777d0d1c3162e5,
         type: 3}
+      propertyPath: cost
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7396710818696382000, guid: b4dfe15502131ed4ea777d0d1c3162e5,
+        type: 3}
       propertyPath: targetType
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7396710818696382000, guid: b4dfe15502131ed4ea777d0d1c3162e5,
         type: 3}
       propertyPath: towerDamage
-      value: 120
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 7396710818696382000, guid: b4dfe15502131ed4ea777d0d1c3162e5,
         type: 3}

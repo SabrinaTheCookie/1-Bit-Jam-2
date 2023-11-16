@@ -10,18 +10,24 @@ public class Enemy : MonoBehaviour
     EnemyBaseClass data;
 
     public float currentHealth;
+    public int soulsOnDeath;
+    public int currentLootHeld = 0;
 
     public float currentAttackPower;
 
     public float baseTickRate;
     public float currentTickRate;
+    private float tickTimer;
 
-    public int currentLootHeld = 0;
 
     public Floor currentFloor;
     public Vector2 currentPosition;
     bool advancing = true;
     bool alive = true;
+    public int maxJumpAttempts;
+    private int currentJumpAttempts;
+
+    public GameObject lootPrefab;
 
     public ParticleSystem hitParticles;
 
@@ -37,12 +43,32 @@ public class Enemy : MonoBehaviour
         currentPosition = startingPosition;
         transform.SetParent(currentFloor.enemyHolder);
         SetData(enemyType);
+        tickTimer = currentTickRate;
     }
 
 
     private void Awake()
     {
         enemyWaveManager = FindObjectOfType<EnemyWaveManager>();
+    }
+
+    void Update()
+    {
+        if (!alive) return;
+
+        if (tickTimer > 0)
+        {
+            tickTimer -= Time.deltaTime;
+
+            if (tickTimer <= 0)
+            {
+                for (int i = 0; i < maxJumpAttempts; i++)
+                {
+                    if (AttemptToMove()) break;
+                }
+                tickTimer = currentTickRate / ActionPhase.TickMultiplier;
+            }
+        }
     }
 
 
@@ -53,8 +79,11 @@ public class Enemy : MonoBehaviour
         currentAttackPower = data.attackPower;
         baseTickRate = data.baseTickRate;
         currentTickRate = data.baseTickRate;
+        soulsOnDeath = data.soulsOnDeath;
 
-        transform.GetChild(0).localScale = new Vector3(ArrayUtility.IndexOf(enemyWaveManager.enemyTypes, dataToSet) * 0.025f + 0.2f, ArrayUtility.IndexOf(enemyWaveManager.enemyTypes, dataToSet) * 0.025f + 0.2f, ArrayUtility.IndexOf(enemyWaveManager.enemyTypes, dataToSet) * 0.025f + 0.2f);
+        //TODO Kris help :o
+        int index = enemyWaveManager.enemyTypes.IndexOf(dataToSet);
+        transform.GetChild(0).localScale = new Vector3(index * 0.025f + 0.2f, index * 0.025f + 0.2f, index * 0.025f + 0.2f);
     }
 
 
@@ -70,16 +99,28 @@ public class Enemy : MonoBehaviour
         }
         else
         {
+            SplashTextManager.SpawnSplashText(SplashTextManager.SplashTextStyle.Damage, $"{damageAmount}", transform.position);
             hitParticles.Play();
         }
     }
 
     private void Defeated()
     {
-        enemyWaveManager.DropLoot(currentLootHeld);
+        alive = false;
+        DropLoot(currentLootHeld);
         OnEnemyDefeated?.Invoke(this, false);
         /* Play Sound Effect or Particle ? */
         Destroy(gameObject);
+    }
+
+    public void DropLoot(int lootAmount)
+    {
+        if (lootAmount > 0)
+        {
+            Loot droppedLoot = Instantiate(lootPrefab, currentFloor.lootHolder).GetComponent<Loot>();
+            droppedLoot.transform.SetPositionAndRotation(transform.position, Quaternion.identity);
+            droppedLoot.Init(lootAmount);
+        }
     }
 
 
@@ -119,7 +160,7 @@ public class Enemy : MonoBehaviour
         currentTickRate = data.baseTickRate;
     }
     
-    public EnemyWaveManager.TurnProgress AttemptToMove()
+    public bool AttemptToMove()
     {
         /* Check if a move is possible, and then call the relevant function. */
         Vector2 desiredPosition = currentFloor.grid.FindEnemyNextPosition(currentPosition, advancing);
@@ -131,21 +172,22 @@ public class Enemy : MonoBehaviour
             if (cellOccupant == null) { Advance(desiredPosition); }
             else if (cellOccupant.GetComponent<Enemy>() != null)
             {
+                Enemy occupant = cellOccupant.GetComponent<Enemy>();
                 /* Swap places with another Enemy if this runs into another. */
-                if (cellOccupant.GetComponent<Enemy>().advancing != advancing || cellOccupant.GetComponent<Enemy>().currentTickRate < currentTickRate) 
+                if (occupant.advancing != advancing || occupant.currentTickRate > currentTickRate) 
                 {
                     currentFloor.grid.SetCellOccupant(currentPosition, null);
                     currentFloor.grid.SetCellOccupant(desiredPosition, null);
-                    cellOccupant.GetComponent<Enemy>().Advance(currentPosition);
+                    occupant.Advance(currentPosition);
                     Advance(desiredPosition);
                 }
 
                 /* Then Move again, basically leap-frogging if they touch another enemy. */
-                return EnemyWaveManager.TurnProgress.Repeat;
+                return false;
             }
         }
 
-        return EnemyWaveManager.TurnProgress.Complete;
+        return true;
     }
     
     public void Advance(Vector2 newPosition)
@@ -167,7 +209,7 @@ public class Enemy : MonoBehaviour
         {
             if (currentFloor.lastFloor)
             {
-                currentFloor.treasurePile.GetComponent<Loot>().lootValue -= CollectLoot(data.carryCapacity);
+                currentFloor.lootPile.GetComponent<Loot>().TakeLoot(data.carryCapacity - currentLootHeld);;
                 ExitDungeon(); // To Do? Remove this line.
             }
             else if (nextFloor.grid.GetCellOccupant(nextFloor.grid.path.startPos) == null)

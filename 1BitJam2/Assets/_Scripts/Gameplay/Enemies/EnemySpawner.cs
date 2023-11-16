@@ -15,14 +15,6 @@ public class EnemySpawner : MonoBehaviour
     }
 
 
-    /*private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Z))
-        {
-            SpawnEnemy(enemyType);
-        }
-    }*/
-
 
     public Enemy SpawnEnemy(EnemyBaseClass enemyType)
     {

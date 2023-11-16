@@ -2,11 +2,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class ActionPhase : MonoBehaviour
 {
-    public float secondsPerTick;
-    public static float SecondsPerTick;
+    public float tickMultiplier;
+    public static float TickMultiplier;
     public static event Action OnActionPhaseComplete;
     public static event Action OnActionPhaseStarted;
 
@@ -23,12 +24,12 @@ public class ActionPhase : MonoBehaviour
 
     void Awake()
     {
-        SecondsPerTick = secondsPerTick;
+        TickMultiplier = tickMultiplier;
     }
 
     void Update()
     {
-        if (SecondsPerTick != secondsPerTick) SecondsPerTick = secondsPerTick;
+        if (TickMultiplier != tickMultiplier) TickMultiplier = tickMultiplier;
     }
 
     public void BeginActionPhase()
