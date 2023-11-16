@@ -15,6 +15,6 @@ MonoBehaviour:
   enemyClass: Medium
   maxHealth: 150
   attackPower: 25
-  baseMovementSpeed: 1
+  baseTickRate: 0.9
   carryCapacity: 35
   sprite: {fileID: 0}

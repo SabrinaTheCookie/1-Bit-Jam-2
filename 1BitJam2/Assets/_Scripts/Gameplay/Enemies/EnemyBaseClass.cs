@@ -11,7 +11,7 @@ public class EnemyBaseClass : ScriptableObject
 
     public float attackPower;
 
-    public float baseMovementSpeed;
+    public float baseTickRate;
 
     public int carryCapacity;
 
