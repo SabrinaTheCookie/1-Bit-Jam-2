@@ -4833,9 +4833,9 @@ MonoBehaviour:
   enemyPrefab: {fileID: 2241583606951420458, guid: 4395bd05c76cd454cbb519faeca82de4,
     type: 3}
   enemyTypes:
-  - {fileID: 11400000, guid: 7d0e75966cacc1243aa1ab0d109f92ce, type: 2}
-  - {fileID: 11400000, guid: 09384996c86e20543a3cae261049b668, type: 2}
   - {fileID: 11400000, guid: 471da965541d8554b97f31001b683d56, type: 2}
+  - {fileID: 11400000, guid: 09384996c86e20543a3cae261049b668, type: 2}
+  - {fileID: 11400000, guid: 7d0e75966cacc1243aa1ab0d109f92ce, type: 2}
   enemySpawner: {fileID: 0}
   waveNumber: 0
   enemiesRemaining: []
