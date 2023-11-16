@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Mono.Cecil.Cil;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -55,12 +56,17 @@ public class GameLootController : Singleton<GameLootController>
         {
             lootCount += loot.lootValue;
         }
+        
         if(totalLoot != lootCount)
         {
             totalLoot = lootCount;
             if (maxGold == 0) maxGold = totalLoot;
+            if (totalLoot == 0)
+            {
+                GameStateManager.Instance.GameOver(false);
+            }
             OnLootUpdate?.Invoke(lootCount);
         }
-        
+
     }
 }
