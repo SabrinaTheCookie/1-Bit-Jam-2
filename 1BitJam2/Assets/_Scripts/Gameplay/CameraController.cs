@@ -11,6 +11,7 @@ public class CameraController : MonoBehaviour
     private CinemachineVirtualCamera vCam;
 
     private CinemachineBasicMultiChannelPerlin vCamNoise;
+    public Transform BossFace;
 
     [Header("Rotation")]
     public bool isRotating;
@@ -100,11 +101,14 @@ public class CameraController : MonoBehaviour
         while (t < rotationDuration)
         {
             if(!isShaking) StartCameraShake(0.5f);
-            transform.rotation = Quaternion.Euler(0, Mathf.Lerp(startRotation, endRotation, rotationCurve.Evaluate(t / rotationDuration)), 0);
+            Quaternion newRot = Quaternion.Euler(0, Mathf.Lerp(startRotation, endRotation, rotationCurve.Evaluate(t / rotationDuration)), 0);
+            transform.rotation = newRot;
+            BossFace.localRotation = newRot;
             t += Time.deltaTime * (fastForwardActive ? fastRotateSpeedMultiplier : 1);
             yield return null;
         }
         transform.rotation = Quaternion.Euler(0, endRotation, 0);
+        BossFace.localRotation = Quaternion.Euler(0, endRotation, 0);
         EndCameraShake();
         isRotating = false;
         if(isHoldingRotate) RotateCamera(antiClockwise);
