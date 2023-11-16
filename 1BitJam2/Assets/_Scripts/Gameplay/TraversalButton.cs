@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class TraversalButton : MonoBehaviour
 {
     Image image;
-
+    public Image enemyIcon;
 
     private void OnEnable()
     {
@@ -27,5 +27,11 @@ public class TraversalButton : MonoBehaviour
             image = GetComponent<Image>();
         }
         image.color = colour;
+        enemyIcon.color = colour;
+    }
+
+    public void ToggleEnemyIcon(bool toggle)
+    {
+        enemyIcon.gameObject.SetActive(toggle);
     }
 }

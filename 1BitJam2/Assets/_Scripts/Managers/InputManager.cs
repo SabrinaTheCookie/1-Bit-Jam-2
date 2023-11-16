@@ -76,8 +76,9 @@ public class InputManager : Singleton<InputManager>
         Vector2 pos = context.ReadValue<Vector2>();
         pos = new Vector2(Mathf.Clamp(pos.x / Screen.width, 0f, 1f), Mathf.Clamp(pos.y / Screen.height, 0f, 1f));
         pointerPositionScreenSpace = pos;
-
     }
+
+    public Vector2 PointPosition => pointerPositionScreenSpace;
 
 
 }
