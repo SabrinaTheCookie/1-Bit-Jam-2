@@ -195,9 +195,7 @@ public class EnemyWaveManager : MonoBehaviour
     }
     
 
-
-    void EnemyDefeated(Enemy enemyDefeated)
-    void EnemyDefeated(Enemy enemyDefeated, bool escaped)
+    void EnemyDefeated(Enemy enemyDefeated, bool escaped = false)
     {
         if (lightEnemiesRemaining.Contains(enemyDefeated)) { lightEnemiesRemaining.Remove(enemyDefeated); }
         else if (mediumEnemiesRemaining.Contains(enemyDefeated)) { mediumEnemiesRemaining.Remove(enemyDefeated); }
