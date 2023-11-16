@@ -19,12 +19,12 @@ public class GameColour : Singleton<GameColour>
 
     private void OnEnable()
     {
-        GameLootController.OnLootUpdate += ChangeColour;
+        CurrencyController.OnLootUpdate += ChangeColour;
     }
 
     private void OnDisable()
     {
-        GameLootController.OnLootUpdate -= ChangeColour;
+        CurrencyController.OnLootUpdate -= ChangeColour;
     }
 
     void Start()
@@ -39,7 +39,7 @@ public class GameColour : Singleton<GameColour>
 
     void ChangeColour(int currentGold)
     {
-        ChangeColour((float)currentGold / GameLootController.Instance.maxGold);
+        ChangeColour((float)currentGold / CurrencyController.Instance.maxGold);
     }
 
     void ChangeColour(float lerp)

@@ -5,18 +5,24 @@ using Mono.Cecil.Cil;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class GameLootController : Singleton<GameLootController>
+public class CurrencyController : Singleton<CurrencyController>
 {
+    [Header("Gold")]
     public List<Loot> lootpiles;
     public int totalLoot;
     public static event Action<int> OnLootUpdate;
+    public static event Action<int> OnSoulUpdate;
     public int maxGold;
+
+    [Header("Souls")] 
+    public int currentSouls;
 
     private void OnEnable()
     {
         Loot.OnLootCreated += AddLoot;
         Loot.OnLootChanged += LootChanged;
         Loot.OnLootEmpty += RemoveLoot;
+        Enemy.OnEnemyDefeated += HarvestSoul;
     }
 
     private void OnDisable()
@@ -24,8 +30,39 @@ public class GameLootController : Singleton<GameLootController>
         Loot.OnLootCreated -= AddLoot;
         Loot.OnLootChanged -= LootChanged;
         Loot.OnLootEmpty -= RemoveLoot;
+        Enemy.OnEnemyDefeated -= HarvestSoul;
+
     }
 
+    #region Souls
+
+    void HarvestSoul(Enemy soulToHarvest, bool escaped)
+    {
+        if (!escaped)
+        {
+            currentSouls += soulToHarvest.soulsOnDeath;
+            OnSoulUpdate?.Invoke(currentSouls);
+        }
+    }
+
+    public bool HasEnoughSouls(int requestedSouls)
+    {
+        return requestedSouls >= currentSouls;
+    }
+    public bool ConsumeSoul(int amountToConsume)
+    {
+        //Not enough souls!
+        if (amountToConsume > currentSouls) return false;
+        
+        //Enough souls :3
+        currentSouls -= amountToConsume;
+        OnSoulUpdate?.Invoke(currentSouls);
+        return true;
+    }
+
+    #endregion
+    #region Loot & Gold
+    
     void AddLoot(Loot newLoot)
     {
         if(!lootpiles.Contains(newLoot))
@@ -67,6 +104,6 @@ public class GameLootController : Singleton<GameLootController>
             }
             OnLootUpdate?.Invoke(lootCount);
         }
-
     }
+    #endregion
 }

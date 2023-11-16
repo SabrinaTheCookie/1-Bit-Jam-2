@@ -9,12 +9,12 @@ public class GoldUI : MonoBehaviour
 
     private void OnEnable()
     {
-        GameLootController.OnLootUpdate += UpdateUI;
+        CurrencyController.OnLootUpdate += UpdateUI;
     }
 
     private void OnDisable()
     {
-        GameLootController.OnLootUpdate -= UpdateUI;
+        CurrencyController.OnLootUpdate -= UpdateUI;
     }
 
     void UpdateUI(int newCount)

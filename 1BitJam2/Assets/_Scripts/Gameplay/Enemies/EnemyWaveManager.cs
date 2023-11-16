@@ -13,10 +13,11 @@ public class EnemyWaveManager : MonoBehaviour
     public EnemyBaseClass[] enemyTypes;
     public EnemySpawner enemySpawner;
 
+    [Min(1)]
     public int waveNumber;
     public List<Enemy> enemiesRemaining;
 
-    public int minimumSquadSize = 4;
+    [FormerlySerializedAs("minimumSquadSize")] public int startingSquadSize = 4;
     public int currentSquadSize;
     public float timeBetweenSpawns;
 
@@ -48,11 +49,20 @@ public class EnemyWaveManager : MonoBehaviour
     IEnumerator NewWave()
     {
         /* Generate a new squad of enemies based on the waveNumber. */
-        currentSquadSize = minimumSquadSize += waveNumber;
+        currentSquadSize = startingSquadSize + (waveNumber - 1);
 
+        //Can only spawn 1 boss!
+        bool hasBoss = false;
         for (int i = 0; i < currentSquadSize; i++)
         {
             EnemyBaseClass enemyType = enemyTypes[Random.Range(0, enemyTypes.Length)];
+
+            //Just keep randomizing until you get an unlocked enemy type and not a second boss
+            while (enemyType.waveNumberToUnlock > waveNumber || (hasBoss && enemyType.enemyClass == "Boss"))
+            {
+                enemyType = enemyTypes[Random.Range(0, enemyTypes.Length)];
+                if (enemyType.enemyClass == "Boss") hasBoss = true;
+            }
 
             /* Instantiate a new 'squad' of enemies, following squad composition rules. */
             //Enemy enemy = Instantiate(enemyPrefab, enemySpawner.position, enemySpawner.rotation).GetComponent<Enemy>();

@@ -13,8 +13,10 @@ MonoBehaviour:
   m_Name: Light
   m_EditorClassIdentifier: 
   enemyClass: Light
-  maxHealth: 75
+  maxHealth: 20
   attackPower: 10
-  baseTickRate: 0.4
+  baseTickRate: 0.3
   carryCapacity: 20
+  soulsOnDeath: 1
+  waveNumberToUnlock: 3
   sprite: {fileID: 0}

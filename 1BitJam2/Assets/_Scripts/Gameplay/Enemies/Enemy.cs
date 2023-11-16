@@ -10,6 +10,8 @@ public class Enemy : MonoBehaviour
     EnemyBaseClass data;
 
     public float currentHealth;
+    public int soulsOnDeath;
+    public int currentLootHeld = 0;
 
     public float currentAttackPower;
 
@@ -17,7 +19,6 @@ public class Enemy : MonoBehaviour
     public float currentTickRate;
     private float tickTimer;
 
-    public int currentLootHeld = 0;
 
     public Floor currentFloor;
     public Vector2 currentPosition;
@@ -78,6 +79,7 @@ public class Enemy : MonoBehaviour
         currentAttackPower = data.attackPower;
         baseTickRate = data.baseTickRate;
         currentTickRate = data.baseTickRate;
+        soulsOnDeath = data.soulsOnDeath;
 
         transform.GetChild(0).localScale = new Vector3(ArrayUtility.IndexOf(enemyWaveManager.enemyTypes, dataToSet) * 0.025f + 0.2f, ArrayUtility.IndexOf(enemyWaveManager.enemyTypes, dataToSet) * 0.025f + 0.2f, ArrayUtility.IndexOf(enemyWaveManager.enemyTypes, dataToSet) * 0.025f + 0.2f);
     }

@@ -14,6 +14,10 @@ public class EnemyBaseClass : ScriptableObject
     public float baseTickRate;
 
     public int carryCapacity;
+    
+    public int soulsOnDeath;
+
+    public int waveNumberToUnlock;
 
     public Sprite sprite;
 }

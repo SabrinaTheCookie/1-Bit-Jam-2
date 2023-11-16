@@ -13,8 +13,10 @@ MonoBehaviour:
   m_Name: Medium
   m_EditorClassIdentifier: 
   enemyClass: Medium
-  maxHealth: 150
+  maxHealth: 35
   attackPower: 25
-  baseTickRate: 0.9
+  baseTickRate: 0.6
   carryCapacity: 35
+  soulsOnDeath: 2
+  waveNumberToUnlock: 0
   sprite: {fileID: 0}
