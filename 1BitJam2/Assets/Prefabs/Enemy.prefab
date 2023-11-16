@@ -133,10 +133,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentHealth: 0
   currentAttackPower: 0
-  currentMovementSpeed: 0
+  baseTickRate: 0
+  currentTickRate: 0
   currentLootHeld: 0
   currentFloor: {fileID: 0}
   currentPosition: {x: 0, y: 0}
+  splashTextOrigin: {fileID: 0}
   hitParticles: {fileID: 5706263747102285445}
 --- !u!65 &4480465740949871608
 BoxCollider:

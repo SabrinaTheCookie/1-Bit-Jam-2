@@ -9,21 +9,13 @@ public class GameColour : Singleton<GameColour>
     public Material enemyLineMaterial;
     private float _colourLerp;
     public float colourLerp;
-    public Color CurrentColor;
+    public Color _CurrentColor;
+    public static Color CurrentColor;
     public Color lerpAColour;
     public Color lerpBColour;
 
     public static event Action<Color> OnColourUpdated;
-    
-    private void OnEnable()
-    {
-        
-    }
 
-    private void OnDisable()
-    {
-        
-    }
 
     private void Start()
     {

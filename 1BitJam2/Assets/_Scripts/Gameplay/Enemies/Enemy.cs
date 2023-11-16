@@ -70,6 +70,7 @@ public class Enemy : MonoBehaviour
         }
         else
         {
+            SplashTextManager.SpawnSplashText(SplashTextManager.SplashTextStyle.Damage, $"{damageAmount}", transform.position);
             hitParticles.Play();
         }
     }

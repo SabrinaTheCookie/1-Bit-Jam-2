@@ -53,9 +53,13 @@ public class SplashTextInstance : MonoBehaviour
     public void Init(string content, Vector3 spawnPosition)
     {
         active = true;
-        transform.position = Camera.main.WorldToScreenPoint(spawnPosition);
-    
         rct = GetComponent<RectTransform>();
+        Vector3 viewport = Camera.main.WorldToViewportPoint(spawnPosition);
+        viewport.x *= Screen.width;
+        viewport.y *= Screen.height;
+
+        transform.position = viewport;
+    
 
         startPosition = rct.anchoredPosition + startPositionOffset;
 
