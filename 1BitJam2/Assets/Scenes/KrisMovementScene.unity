@@ -243,6 +243,7 @@ MonoBehaviour:
   towersOnFloor: []
   enemyPathRenderer: {fileID: 0}
   floorManager: {fileID: 0}
+  lastFloor: 0
 --- !u!1 &987530386
 GameObject:
   m_ObjectHideFlags: 0
@@ -272,7 +273,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58f35a6d3d17ffc43b494d0c295695aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  path: {fileID: 11400000, guid: 0dcb858c8969900459e2a427ae0bd95c, type: 2}
+  path: {fileID: 11400000, guid: 8d871f5533cfbb640a5697dc36e3b319, type: 2}
   drawGizmos: 1
 --- !u!4 &987530388
 Transform:
