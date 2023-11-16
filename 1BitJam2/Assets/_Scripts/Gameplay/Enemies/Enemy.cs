@@ -144,12 +144,13 @@ public class Enemy : MonoBehaviour
             if (cellOccupant == null) { Advance(desiredPosition); }
             else if (cellOccupant.GetComponent<Enemy>() != null)
             {
+                Enemy occupant = cellOccupant.GetComponent<Enemy>();
                 /* Swap places with another Enemy if this runs into another. */
-                if (cellOccupant.GetComponent<Enemy>().advancing != advancing || cellOccupant.GetComponent<Enemy>().currentTickRate < currentTickRate) 
+                if (occupant.advancing != advancing || occupant.currentTickRate < currentTickRate) 
                 {
                     currentFloor.grid.SetCellOccupant(currentPosition, null);
                     currentFloor.grid.SetCellOccupant(desiredPosition, null);
-                    cellOccupant.GetComponent<Enemy>().Advance(currentPosition);
+                    occupant.Advance(currentPosition);
                     Advance(desiredPosition);
                 }
 

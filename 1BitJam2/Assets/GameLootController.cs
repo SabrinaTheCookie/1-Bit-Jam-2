@@ -3,11 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameLootController : MonoBehaviour
+public class GameLootController : Singleton<GameLootController>
 {
     public List<Loot> lootpiles;
     public int totalLoot;
     public static event Action<int> OnLootUpdate;
+    public int maxGold;
+
     private void OnEnable()
     {
         Loot.OnLootCreated += AddLoot;

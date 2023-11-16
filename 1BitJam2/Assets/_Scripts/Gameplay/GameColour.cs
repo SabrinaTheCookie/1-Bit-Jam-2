@@ -16,6 +16,15 @@ public class GameColour : Singleton<GameColour>
 
     public static event Action<Color> OnColourUpdated;
 
+    private void OnEnable()
+    {
+        GameLootController.OnLootUpdate += ChangeColour;
+    }
+
+    private void OnDisable()
+    {
+        GameLootController.OnLootUpdate -= ChangeColour;
+    }
 
     private void Start()
     {
@@ -25,6 +34,11 @@ public class GameColour : Singleton<GameColour>
     void Update()
     {
         if (colourLerp != _colourLerp) ChangeColour(colourLerp);
+    }
+
+    void ChangeColour(int currentGold)
+    {
+        ChangeColour(currentGold / GameLootController.Instance.maxGold);
     }
 
     void ChangeColour(float lerp)
