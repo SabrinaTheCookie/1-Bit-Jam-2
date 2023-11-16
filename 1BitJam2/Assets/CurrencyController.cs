@@ -47,7 +47,7 @@ public class CurrencyController : Singleton<CurrencyController>
 
     public bool HasEnoughSouls(int requestedSouls)
     {
-        return requestedSouls >= currentSouls;
+        return requestedSouls <= currentSouls;
     }
     public bool ConsumeSoul(int amountToConsume)
     {

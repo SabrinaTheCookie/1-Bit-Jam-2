@@ -17,6 +17,6 @@ MonoBehaviour:
   attackPower: 50
   baseTickRate: 1.5
   carryCapacity: 200
-  soulsOnDeath: 10
+  soulsOnDeath: 5
   waveNumberToUnlock: 10
   sprite: {fileID: 0}

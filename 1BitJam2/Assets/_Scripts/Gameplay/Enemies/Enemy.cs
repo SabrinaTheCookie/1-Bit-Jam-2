@@ -81,7 +81,9 @@ public class Enemy : MonoBehaviour
         currentTickRate = data.baseTickRate;
         soulsOnDeath = data.soulsOnDeath;
 
-        transform.GetChild(0).localScale = new Vector3(ArrayUtility.IndexOf(enemyWaveManager.enemyTypes, dataToSet) * 0.025f + 0.2f, ArrayUtility.IndexOf(enemyWaveManager.enemyTypes, dataToSet) * 0.025f + 0.2f, ArrayUtility.IndexOf(enemyWaveManager.enemyTypes, dataToSet) * 0.025f + 0.2f);
+        //TODO Kris help :o
+        int index = enemyWaveManager.enemyTypes.IndexOf(dataToSet);
+        transform.GetChild(0).localScale = new Vector3(index * 0.025f + 0.2f, index * 0.025f + 0.2f, index * 0.025f + 0.2f);
     }
 
 

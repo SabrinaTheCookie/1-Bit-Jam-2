@@ -10,7 +10,7 @@ public class EnemyWaveManager : MonoBehaviour
 {
 
     public GameObject enemyPrefab;
-    public EnemyBaseClass[] enemyTypes;
+    public List<EnemyBaseClass> enemyTypes;
     public EnemySpawner enemySpawner;
 
     [Min(1)]
@@ -20,6 +20,7 @@ public class EnemyWaveManager : MonoBehaviour
     [FormerlySerializedAs("minimumSquadSize")] public int startingSquadSize = 4;
     public int currentSquadSize;
     public float timeBetweenSpawns;
+    private bool finishedSpawning;
 
 
     private bool hasInit;
@@ -48,6 +49,7 @@ public class EnemyWaveManager : MonoBehaviour
 
     IEnumerator NewWave()
     {
+        finishedSpawning = false;
         /* Generate a new squad of enemies based on the waveNumber. */
         currentSquadSize = startingSquadSize + (waveNumber - 1);
 
@@ -55,12 +57,12 @@ public class EnemyWaveManager : MonoBehaviour
         bool hasBoss = false;
         for (int i = 0; i < currentSquadSize; i++)
         {
-            EnemyBaseClass enemyType = enemyTypes[Random.Range(0, enemyTypes.Length)];
+            EnemyBaseClass enemyType = enemyTypes[Random.Range(0, enemyTypes.Count)];
 
             //Just keep randomizing until you get an unlocked enemy type and not a second boss
             while (enemyType.waveNumberToUnlock > waveNumber || (hasBoss && enemyType.enemyClass == "Boss"))
             {
-                enemyType = enemyTypes[Random.Range(0, enemyTypes.Length)];
+                enemyType = enemyTypes[Random.Range(0, enemyTypes.Count)];
                 if (enemyType.enemyClass == "Boss") hasBoss = true;
             }
 
@@ -73,6 +75,8 @@ public class EnemyWaveManager : MonoBehaviour
             yield return new WaitForSeconds(timeBetweenSpawns);
         }
 
+        finishedSpawning = true;
+
     }
 
 
@@ -80,7 +84,7 @@ public class EnemyWaveManager : MonoBehaviour
     {
         enemiesRemaining.Remove(enemyDefeated);
         
-        if(enemiesRemaining.Count == 0) WaveComplete();
+        if(enemiesRemaining.Count == 0 && finishedSpawning) WaveComplete();
     }
     public void WaveComplete()
     {

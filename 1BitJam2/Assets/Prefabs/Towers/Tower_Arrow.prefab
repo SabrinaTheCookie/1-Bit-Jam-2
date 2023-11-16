@@ -15,7 +15,7 @@ PrefabInstance:
     - target: {fileID: -455516803787420597, guid: cc0aa01299bfb124bab7b6a8cdaf0f9f,
         type: 3}
       propertyPath: towerDamage
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: -455516803787420597, guid: cc0aa01299bfb124bab7b6a8cdaf0f9f,
         type: 3}

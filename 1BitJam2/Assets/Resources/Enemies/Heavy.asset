@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Heavy
   m_EditorClassIdentifier: 
   enemyClass: Heavy
-  maxHealth: 250
+  maxHealth: 100
   attackPower: 50
   baseTickRate: 0.9
   carryCapacity: 50
-  soulsOnDeath: 3
+  soulsOnDeath: 1
   waveNumberToUnlock: 5
   sprite: {fileID: 0}
