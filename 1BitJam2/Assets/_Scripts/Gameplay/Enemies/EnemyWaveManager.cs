@@ -215,12 +215,5 @@ public class EnemyWaveManager : MonoBehaviour
 
 
 
-    public void DropLoot(int lootAmount)
-    {
-        if (lootAmount > 0)
-        {
-            Loot droppedLoot = Instantiate(droppedLootPrefab, transform.position, transform.rotation).GetComponent<Loot>();
-            droppedLoot.lootValue = lootAmount;
-        }
-    }
+  
 }

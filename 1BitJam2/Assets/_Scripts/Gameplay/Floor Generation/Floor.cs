@@ -16,6 +16,7 @@ public class Floor : MonoBehaviour
     public List<Enemy> enemiesOnFloor;
     public Transform enemyHolder;
     public Transform towerHolder;
+    public Transform lootHolder;
     public List<GameObject> towersOnFloor = new List<GameObject>();
     public Grid grid;
     public LineRenderer enemyPathRenderer;
@@ -47,7 +48,7 @@ public class Floor : MonoBehaviour
         this.floorNumber = floorNumber;
         gameObject.name = $"Floor{this.floorNumber}";
         //Setup grid
-        if (this.floorNumber == floorManager.Floors.Count - 1)
+        if (floorNumber == floorManager.Floors.Count - 1)
         {
             lastFloor = true;
         }

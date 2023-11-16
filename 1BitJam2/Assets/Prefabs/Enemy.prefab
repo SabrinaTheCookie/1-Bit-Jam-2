@@ -138,7 +138,8 @@ MonoBehaviour:
   currentLootHeld: 0
   currentFloor: {fileID: 0}
   currentPosition: {x: 0, y: 0}
-  splashTextOrigin: {fileID: 0}
+  lootPrefab: {fileID: 8094892543307074512, guid: e82d4ba2c83f4ea448460f3932c791d6,
+    type: 3}
   hitParticles: {fileID: 5706263747102285445}
 --- !u!65 &4480465740949871608
 BoxCollider:

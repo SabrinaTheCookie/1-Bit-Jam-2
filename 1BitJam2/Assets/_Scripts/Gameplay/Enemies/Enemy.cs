@@ -23,6 +23,8 @@ public class Enemy : MonoBehaviour
     bool advancing = true;
     bool alive = true;
 
+    public GameObject lootPrefab;
+
     public ParticleSystem hitParticles;
 
     //<EnemyDefeated, escaped>
@@ -77,10 +79,20 @@ public class Enemy : MonoBehaviour
 
     private void Defeated()
     {
-        enemyWaveManager.DropLoot(currentLootHeld);
+        DropLoot(currentLootHeld);
         OnEnemyDefeated?.Invoke(this, false);
         /* Play Sound Effect or Particle ? */
         Destroy(gameObject);
+    }
+
+    public void DropLoot(int lootAmount)
+    {
+        if (lootAmount > 0)
+        {
+            Loot droppedLoot = Instantiate(lootPrefab, currentFloor.lootHolder).GetComponent<Loot>();
+            droppedLoot.transform.SetPositionAndRotation(transform.position, Quaternion.identity);
+            droppedLoot.Init(lootAmount);
+        }
     }
 
 
@@ -168,7 +180,7 @@ public class Enemy : MonoBehaviour
         {
             if (currentFloor.lastFloor)
             {
-                currentFloor.treasurePile.GetComponent<Loot>().lootValue -= CollectLoot(data.carryCapacity);
+                currentFloor.treasurePile.GetComponent<Loot>().TakeLoot(data.carryCapacity - currentLootHeld);;
                 ExitDungeon(); // To Do? Remove this line.
             }
             else if (nextFloor.grid.GetCellOccupant(nextFloor.grid.path.startPos) == null)

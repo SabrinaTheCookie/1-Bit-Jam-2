@@ -27,6 +27,7 @@ public class GameLootController : MonoBehaviour
         if(!lootpiles.Contains(newLoot))
         {
             lootpiles.Add(newLoot);
+            RecalculateLoot();
         }
     }
 
@@ -40,6 +41,7 @@ public class GameLootController : MonoBehaviour
         if (lootpiles.Contains(lootToRemove))
         {
             lootpiles.Remove(lootToRemove);
+            RecalculateLoot();
         }
     }
 
