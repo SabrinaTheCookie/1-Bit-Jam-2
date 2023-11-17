@@ -25,14 +25,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2163004484636276776}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0.00000058114523}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.20000002, y: 0.20000002, z: 0.20000002}
+  m_LocalScale: {x: 12, y: 12, z: 12}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 898774767249374123}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!33 &8957429450961422905
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -40,7 +40,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2163004484636276776}
-  m_Mesh: {fileID: -5495902117074765545, guid: 57f989e976669304eaee3cfe727d9295, type: 3}
+  m_Mesh: {fileID: 3369316746193770658, guid: 9d07445c93bb9ff4082a8cc89e326cd3, type: 3}
 --- !u!23 &3153984287136187540
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -132,16 +132,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentHealth: 0
+  soulsOnDeath: 0
+  currentLootHeld: 0
   currentAttackPower: 0
   baseTickRate: 0
   currentTickRate: 0
-  currentLootHeld: 0
   currentFloor: {fileID: 0}
   currentPosition: {x: 0, y: 0}
   maxJumpAttempts: 4
   lootPrefab: {fileID: 8094892543307074512, guid: e82d4ba2c83f4ea448460f3932c791d6,
     type: 3}
   hitParticles: {fileID: 5706263747102285445}
+  meshFilter: {fileID: 8957429450961422905}
 --- !u!65 &4480465740949871608
 BoxCollider:
   m_ObjectHideFlags: 0

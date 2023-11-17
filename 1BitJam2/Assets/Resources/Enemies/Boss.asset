@@ -19,4 +19,5 @@ MonoBehaviour:
   carryCapacity: 200
   soulsOnDeath: 5
   waveNumberToUnlock: 10
-  sprite: {fileID: 0}
+  mesh: {fileID: 3369316746193770658, guid: 4b064172e6ac4bc4abb90f706041570c, type: 3}
+  meshScalar: 2
