@@ -19,7 +19,8 @@ public class EnemyBaseClass : ScriptableObject
 
     public int waveNumberToUnlock;
 
-    public Sprite sprite;
+    public Mesh mesh;
+    public float meshScalar;
 }
 
 

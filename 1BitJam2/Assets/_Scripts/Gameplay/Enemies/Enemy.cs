@@ -31,6 +31,8 @@ public class Enemy : MonoBehaviour
 
     public ParticleSystem hitParticles;
 
+    public MeshFilter meshFilter;
+
     //<EnemyDefeated, escaped>
     public static event Action<Enemy, bool> OnEnemyDefeated;
     public static event Action<int, Enemy> OnEnemyChangedFloors;
@@ -80,10 +82,8 @@ public class Enemy : MonoBehaviour
         baseTickRate = data.baseTickRate;
         currentTickRate = data.baseTickRate;
         soulsOnDeath = data.soulsOnDeath;
-
-        //TODO Kris help :o
-        int index = enemyWaveManager.enemyTypes.IndexOf(dataToSet);
-        transform.GetChild(0).localScale = new Vector3(index * 0.025f + 0.2f, index * 0.025f + 0.2f, index * 0.025f + 0.2f);
+        meshFilter.mesh = data.mesh;
+        meshFilter.gameObject.transform.localScale *= data.meshScalar;
     }
 
 

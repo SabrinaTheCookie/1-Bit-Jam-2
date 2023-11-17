@@ -22,10 +22,11 @@ public class ScreenDrawEffect : MonoBehaviour
 
     void Start()
     {
-        int height = (int) (Screen.height / scanLinesCount);
+        float canvasHeight = GetComponent<RectTransform>().rect.height;
+        int height = (int) (canvasHeight / scanLinesCount);
         
         // Monkey solution to ensure that the scan lines aren't going to be shorter than the screen:
-        while (height * scanLinesCount < Screen.height)
+        while (height * scanLinesCount < canvasHeight)
         {
             height += 1;
         }
