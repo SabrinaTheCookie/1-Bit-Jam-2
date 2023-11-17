@@ -37,6 +37,7 @@ public class BuildPhase : MonoBehaviour
 
     public void BeginBuildPhase()
     {
+        AudioManager.Instance.PlaySound("BuildStart");
         OnBuildPhaseStarted?.Invoke();
         buildTimeRemaining = buildPhaseDuration;
     }

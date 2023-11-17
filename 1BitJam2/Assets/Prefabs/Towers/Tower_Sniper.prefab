@@ -94,6 +94,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7396710818696382000, guid: b4dfe15502131ed4ea777d0d1c3162e5,
         type: 3}
+      propertyPath: towerIndex
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7396710818696382000, guid: b4dfe15502131ed4ea777d0d1c3162e5,
+        type: 3}
       propertyPath: towerDamage
       value: 100
       objectReference: {fileID: 0}

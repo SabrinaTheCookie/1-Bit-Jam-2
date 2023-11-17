@@ -71,6 +71,7 @@ public class CameraController : MonoBehaviour
     public void RotateCamera(bool antiClockwise)
     {
         if (isRotating) return;
+        AudioManager.Instance.PlaySound("Rotate");
         StartCoroutine(RotateLerp(antiClockwise));
     }
 

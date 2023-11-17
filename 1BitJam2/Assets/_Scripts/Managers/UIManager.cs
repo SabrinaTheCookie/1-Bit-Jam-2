@@ -34,7 +34,7 @@ public class UIManager : MonoBehaviour
         menu.SetActive(true);
         gameOverScreen.SetActive(true);
         gameOverWinLossText.text = GameStateManager.Instance.GetGameState().isVictorious ? "Victory" : "Defeat";
-        gameOverScore.text = GameStateManager.Instance.GetGameState().score.ToString("00.00");
+        gameOverScore.text = GameStateManager.Instance.GetGameState().score.ToString("0");
     }
     
 }

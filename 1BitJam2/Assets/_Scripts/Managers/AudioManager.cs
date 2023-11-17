@@ -29,7 +29,8 @@ public class AudioManager : Singleton<AudioManager>
     public string startingMusic;
     public List<Sound> music = new List<Sound>();
 
-    [Header("Sound Effects")]
+    [Header("Sound Effects")] 
+    public int maxSounds;
     public bool sfxMute = false;
     public float sfxVolume;
     public AudioMixerGroup sfxMix;
@@ -74,7 +75,7 @@ public class AudioManager : Singleton<AudioManager>
         if (masterMute || sfxMute)
             return;
         
-        if (activeSources.Count >= 5)
+        if (activeSources.Count >= maxSounds)
             return;
 
         AudioSource source = gameObject.AddComponent<AudioSource>();

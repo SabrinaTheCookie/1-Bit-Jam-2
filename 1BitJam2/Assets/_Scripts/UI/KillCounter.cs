@@ -6,6 +6,7 @@ using UnityEngine;
 public class KillCounter : MonoBehaviour
 {
     int counter;
+    public static int KillCount = 0;
     public TextMeshProUGUI text;
     void OnEnable()
     {
@@ -20,8 +21,10 @@ public class KillCounter : MonoBehaviour
 
     void EnemyDefeated(Enemy enemy, bool escaped)
     {
-        if(!escaped)
-            counter++;
+        if (escaped) return;
+        
+        counter++;
+        KillCount = counter;
         text.text = $"{counter}";
     }
 }
