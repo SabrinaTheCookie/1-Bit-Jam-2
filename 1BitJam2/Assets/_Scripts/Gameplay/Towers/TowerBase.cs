@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class TowerBase : MonoBehaviour
 {
+    public int towerIndex;
     [Header("Componenets")] 
     public TowerRange towerRange;
 
@@ -48,7 +49,7 @@ public class TowerBase : MonoBehaviour
         if (target == null || !towerRange.validTargets.Contains(target)) return;
 
         attackTimer = secondsBetweenAttacks;
-
+        AudioManager.Instance.PlaySound($"TowerFire{towerIndex}");
         if(areaOfEffectRange == 0)
         {
             target.TakeDamage(towerDamage);

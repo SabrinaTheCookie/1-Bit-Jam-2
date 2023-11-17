@@ -34,6 +34,7 @@ public class ActionPhase : MonoBehaviour
 
     public void BeginActionPhase()
     {
+        AudioManager.Instance.PlaySound("ActionStart");
         OnActionPhaseStarted?.Invoke();
     }
 

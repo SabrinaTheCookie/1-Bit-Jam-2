@@ -24,13 +24,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6986852466076077701}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2849904549416316264
 MonoBehaviour:
@@ -52,17 +52,65 @@ MonoBehaviour:
   musicMix: {fileID: -1413795500009600871, guid: 40e2884f3344b2e46b7d709567c2fe48,
     type: 2}
   playOnStart: 0
-  startingMusic: TitleMusic
+  startingMusic: Crypt
   music:
-  - name: TitleMusic
-    clip: {fileID: 8300000, guid: 8baa98057153db143b688b0ee0d02b3e, type: 3}
+  - name: Crypt
+    clip: {fileID: 8300000, guid: 1563f294aae3b134eb18f410f3a6efd2, type: 3}
+    volumePercent: 1
+  - name: AdventureWin
+    clip: {fileID: 8300000, guid: 59c01f6ba73a47749a612a5c2f519916, type: 3}
+    volumePercent: 1
+  - name: LegacyOfTheKing
+    clip: {fileID: 8300000, guid: 0d45fea0afa6f2b40b8302acf9b68aec, type: 3}
     volumePercent: 1
   sfxMute: 0
   sfxVolume: 1
   sfxMix: {fileID: 1164407368917790334, guid: 40e2884f3344b2e46b7d709567c2fe48, type: 2}
   sounds:
   - name: UiBlip
-    clip: {fileID: 8300000, guid: d89bdd79a236dbd45b3951c270fe341c, type: 3}
+    clip: {fileID: 8300000, guid: 8ca6ce87e1fddf842acd52d9d2d4d575, type: 3}
+    volumePercent: 1
+  - name: LichRoar
+    clip: {fileID: 8300000, guid: 0d1497b999b7fb34e83fa1cfaadc9ff1, type: 3}
+    volumePercent: 1
+  - name: BuildStart
+    clip: {fileID: 8300000, guid: 12c01bfcc1c668440b679cfb9afb932d, type: 3}
+    volumePercent: 1
+  - name: ActionStart
+    clip: {fileID: 8300000, guid: 39b7ec31a42eed54a8ca3ef007e2970d, type: 3}
+    volumePercent: 1
+  - name: UnitDeath
+    clip: {fileID: 8300000, guid: 533cc0303c7827d4e917e371ec97cb5c, type: 3}
+    volumePercent: 1
+  - name: GoldTaken
+    clip: {fileID: 8300000, guid: 13c0f6343dc4db948846c225fdf6a68c, type: 3}
+    volumePercent: 1
+  - name: TowerFire0
+    clip: {fileID: 8300000, guid: 51da0c476ac5ca442bdfc9a6700621b2, type: 3}
+    volumePercent: 1
+  - name: TowerFire1
+    clip: {fileID: 8300000, guid: 1b2aa623afc5cd54089f76b1b90544af, type: 3}
+    volumePercent: 1
+  - name: TowerFire2
+    clip: {fileID: 8300000, guid: 992d1e8a363e7834d9493446bf0c2827, type: 3}
+    volumePercent: 1
+  - name: PlaceTower0
+    clip: {fileID: 8300000, guid: 55a824e2ad9e08b4dbb812e3367d7357, type: 3}
+    volumePercent: 1
+  - name: PlaceTower1
+    clip: {fileID: 8300000, guid: 1ad343970ff5d2349b3778b82ed079ea, type: 3}
+    volumePercent: 1
+  - name: PlaceTower2
+    clip: {fileID: 8300000, guid: f44fc4b4007c5cb4c8f534bfb1424251, type: 3}
+    volumePercent: 1
+  - name: TraverseUp
+    clip: {fileID: 8300000, guid: 6f87fe34aa5065f4abfe277dd6e9f3fb, type: 3}
+    volumePercent: 1
+  - name: TraverseDown
+    clip: {fileID: 8300000, guid: 91d3dfdbfbcc34647851d514373d1fb1, type: 3}
+    volumePercent: 1
+  - name: Rotate
+    clip: {fileID: 8300000, guid: 12b14849b9e84374c9611cf1284c4f42, type: 3}
     volumePercent: 1
   dialogueMute: 0
   dialogueVolume: 1

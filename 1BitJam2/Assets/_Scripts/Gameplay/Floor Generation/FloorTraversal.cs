@@ -125,6 +125,8 @@ public class FloorTraversal : MonoBehaviour
         if (isTraversing) return;
         isTraversing = true;
         OnTraversalStarted?.Invoke();
+        string directionString = direction == -1 ? "Up" : "Down";
+        AudioManager.Instance.PlaySound($"Traverse{directionString}");
         int nextFloor = currentFloor + Mathf.RoundToInt(direction);
         List<Floor> floors = _manager.Floors;
         StartCoroutine(TraverseOverTime(floors, direction, nextFloor, numberOfFloors));

@@ -100,6 +100,8 @@ public class CurrencyController : Singleton<CurrencyController>
             if (maxGold == 0) maxGold = totalLoot;
             if (totalLoot == 0)
             {
+                AudioManager.Instance.PlayMusic("AdventureWin");
+                GameStateManager.Instance.UpdateGameState(null, KillCounter.KillCount);
                 GameStateManager.Instance.GameOver(false);
             }
             OnLootUpdate?.Invoke(lootCount);

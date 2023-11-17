@@ -24,6 +24,7 @@ public class MenuInitManager : MonoBehaviour
         {
             if (finishedRenderingIntroduction)
             {
+                AudioManager.Instance.PlaySound("UiBlip");
                 StartCoroutine(ShowMainMenu());
             }
         }

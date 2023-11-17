@@ -67,6 +67,7 @@ public class TowerSpawner : MonoBehaviour
                 GameObject towerInstance = Instantiate(tower.gameObject, towerPosition, Quaternion.identity);
                 towerInstance.transform.SetParent(floor.towerHolder, true);
                 floor.towersOnFloor.Add(towerInstance.GetComponent<TowerBase>());
+                AudioManager.Instance.PlaySound($"PlaceTower{(int)selectedType}");
             }
             else
             {

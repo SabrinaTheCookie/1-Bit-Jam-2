@@ -108,6 +108,7 @@ public class Enemy : MonoBehaviour
     {
         alive = false;
         DropLoot(currentLootHeld);
+        AudioManager.Instance.PlaySound("UnitDeath");
         OnEnemyDefeated?.Invoke(this, false);
         /* Play Sound Effect or Particle ? */
         Destroy(gameObject);
@@ -209,7 +210,8 @@ public class Enemy : MonoBehaviour
         {
             if (currentFloor.lastFloor)
             {
-                currentFloor.lootPile.GetComponent<Loot>().TakeLoot(data.carryCapacity - currentLootHeld);;
+                currentLootHeld = currentFloor.lootPile.GetComponent<Loot>().TakeLoot(data.carryCapacity - currentLootHeld);
+                AudioManager.Instance.PlaySound("GoldTaken");
                 ExitDungeon(); // To Do? Remove this line.
             }
             else if (nextFloor.grid.GetCellOccupant(nextFloor.grid.path.startPos) == null)
