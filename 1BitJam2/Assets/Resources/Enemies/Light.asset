@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Light
   m_EditorClassIdentifier: 
   enemyClass: Light
-  maxHealth: 30
+  maxHealth: 75
   attackPower: 10
   baseTickRate: 0.3
   carryCapacity: 20

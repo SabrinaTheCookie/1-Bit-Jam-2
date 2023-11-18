@@ -23,7 +23,16 @@ namespace Managers
         /// <param name="scene">Build Index of Scene</param>
         public void LoadScene(int sceneBuildIndex)
         {
-            LoadScene((Scenes)sceneBuildIndex);
+            if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == 2)
+            {
+                FindObjectOfType<GameStateManager>().DestroyMe();
+                FindObjectOfType<UIManager>().DestroyMe();
+
+                LoadScene((Scenes)sceneBuildIndex);
+
+                Destroy(gameObject);
+            }
+            else { LoadScene((Scenes)sceneBuildIndex); }
         }
         
         public void LoadScene(Scenes scene)

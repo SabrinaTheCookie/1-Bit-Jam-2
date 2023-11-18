@@ -142,6 +142,8 @@ public class Enemy : MonoBehaviour
 
     public void ExitDungeon()
     {
+        if (data.maxHealth == 999999999) { TakeDamage(999999999); return; }
+
         /* Enemy has escaped with your gold! */
 
         //Just call enemy defeated to tell the wave manager to remove you :)

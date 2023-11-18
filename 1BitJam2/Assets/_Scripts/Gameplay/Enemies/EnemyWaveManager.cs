@@ -22,14 +22,21 @@ public class EnemyWaveManager : MonoBehaviour
     public float timeBetweenSpawns;
     private bool finishedSpawning;
 
+    public EnemyBaseClass pitySouls;
 
     private bool hasInit;
 
     public static event Action OnWaveComplete;
+
+    public GameObject fastFowardButton;
+    bool fastForwarding;
+    bool pitySoulsCollected;
+
     private void OnEnable()
     {
         enemySpawner = FindObjectOfType<EnemySpawner>();
         ActionPhase.OnActionPhaseStarted += BeginNewWave;
+
         Enemy.OnEnemyDefeated += EnemyDefeated;
     }
     
@@ -49,9 +56,12 @@ public class EnemyWaveManager : MonoBehaviour
 
     IEnumerator NewWave()
     {
+        pitySoulsCollected = false;
         finishedSpawning = false;
         /* Generate a new squad of enemies based on the waveNumber. */
         currentSquadSize = startingSquadSize + (waveNumber - 1);
+
+        
 
         //Can only spawn 1 boss!
         bool hasBoss = false;
@@ -75,8 +85,10 @@ public class EnemyWaveManager : MonoBehaviour
             yield return new WaitForSeconds(timeBetweenSpawns);
         }
 
-        finishedSpawning = true;
+        
 
+        finishedSpawning = true;
+        fastFowardButton.SetActive(true);
     }
 
 
@@ -86,13 +98,39 @@ public class EnemyWaveManager : MonoBehaviour
         
         if(enemiesRemaining.Count == 0 && finishedSpawning) WaveComplete();
     }
+
+
     public void WaveComplete()
     {
-        waveNumber++;
-        OnWaveComplete?.Invoke();
+        if (!pitySoulsCollected)
+        {
+            pitySoulsCollected = true;
+
+            /* Spawns an invisible pity enemy that will die at the end of the round and grant the player a single soul. Cannot be killed by normal means.
+             * This prevents the player from getting stuck in a loop where they can't build anything and can't kill anything either. */
+            Enemy pityEnemy = enemySpawner.SpawnPityEnemy(pitySouls);
+            enemiesRemaining.Add(pityEnemy);
+            return;
+        }
+        else
+        {
+            fastFowardButton.SetActive(false);
+            fastForwarding = false;
+            Time.timeScale = 1.0f;
+
+            waveNumber++;
+            OnWaveComplete?.Invoke();
+        }
     }
 
 
-
-  
+    public void FastForward()
+    {
+        if (!fastForwarding)
+        {
+            fastFowardButton.SetActive(false);
+            fastForwarding = true;
+            Time.timeScale = 3.0f;
+        }
+    }
 }

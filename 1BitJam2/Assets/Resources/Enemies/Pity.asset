@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 465b54c8eee6da140805c33b975a38e5, type: 3}
-  m_Name: Heavy
+  m_Name: Pity
   m_EditorClassIdentifier: 
-  enemyClass: Heavy
-  maxHealth: 300
-  attackPower: 50
-  baseTickRate: 0.9
-  carryCapacity: 50
+  enemyClass: PitySouls
+  maxHealth: 1e+9
+  attackPower: 0
+  baseTickRate: 0.3
+  carryCapacity: 0
   soulsOnDeath: 1
-  waveNumberToUnlock: 5
-  mesh: {fileID: 3369316746193770658, guid: 4b064172e6ac4bc4abb90f706041570c, type: 3}
-  meshScalar: 1.2
+  waveNumberToUnlock: 0
+  mesh: {fileID: 3369316746193770658, guid: 9d07445c93bb9ff4082a8cc89e326cd3, type: 3}
+  meshScalar: 0
