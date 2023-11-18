@@ -398,7 +398,7 @@ MonoBehaviour:
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 0}
   m_Lens:
-    FieldOfView: 60
+    FieldOfView: 65
     OrthographicSize: 2.6
     NearClipPlane: 0.3
     FarClipPlane: 1000
@@ -1862,7 +1862,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 65
   orthographic: 0
   orthographic size: 2.6
   m_Depth: -1
@@ -8543,6 +8543,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 471da965541d8554b97f31001b683d56, type: 2}
   - {fileID: 11400000, guid: 09384996c86e20543a3cae261049b668, type: 2}
   - {fileID: 11400000, guid: 7d0e75966cacc1243aa1ab0d109f92ce, type: 2}
+  - {fileID: 11400000, guid: be98c2ad7b8598c4eb53657e5a87a408, type: 2}
   enemySpawner: {fileID: 0}
   waveNumber: 1
   enemiesRemaining: []

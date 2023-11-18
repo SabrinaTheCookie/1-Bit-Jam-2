@@ -20,6 +20,8 @@ public class EnemySpawner : MonoBehaviour
     {
         Vector3 spawnPoint = Grid.ConvertGridToWorldPosition(floor.grid.path.startPos);
         Enemy enemySpawned = Instantiate(enemyPrefab, spawnPoint, Quaternion.identity).GetComponent<Enemy>();
+        Vector3 direction = Grid.ConvertGridToWorldPosition(floor.grid.path.startPos) - Grid.ConvertGridToWorldPosition(floor.grid.path.positions[1]);
+        enemySpawned.transform.forward = -direction;
         enemySpawned.Init(floor, floor.grid.path.startPos, enemyType);
         OnEnemySpawned?.Invoke(floor.floorNumber, enemySpawned);
         return enemySpawned;

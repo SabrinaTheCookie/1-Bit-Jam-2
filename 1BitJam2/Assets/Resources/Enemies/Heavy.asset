@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Heavy
   m_EditorClassIdentifier: 
   enemyClass: Heavy
-  maxHealth: 300
+  maxHealth: 500
   attackPower: 50
   baseTickRate: 0.9
   carryCapacity: 50

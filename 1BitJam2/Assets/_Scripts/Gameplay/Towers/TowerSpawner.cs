@@ -8,6 +8,7 @@ public class TowerSpawner : MonoBehaviour
     [SerializeField] private LayerMask layerMask;
     [SerializeField] private GameObject[] towerPrefabs;
     [SerializeField] private float towerTooCloseRange;
+    [SerializeField] private float clutterTooCloseRange;
 
     public static event Action<string> OnTowerSelected;
     public static event Action<string> OnTowerPlacementMessage;
@@ -50,7 +51,12 @@ public class TowerSpawner : MonoBehaviour
             {
                 if (obj.transform.CompareTag("Tower")) validPlacement = false;
             }
-            
+            hits = Physics.SphereCastAll(towerPosition, clutterTooCloseRange, Vector3.down);
+            foreach (var obj in hits)
+            {
+                if (obj.transform.CompareTag("Clutter")) validPlacement = false;
+            }
+
             //Return if not valid
             if (!validPlacement)
             {

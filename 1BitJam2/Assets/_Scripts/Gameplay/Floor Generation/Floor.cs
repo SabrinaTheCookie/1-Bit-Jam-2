@@ -23,6 +23,7 @@ public class Floor : MonoBehaviour
     public LineRenderer enemyPathRenderer;
     public FloorManager floorManager;
     public bool lastFloor = false;
+    public GameObject clutterPrefab;
     public static event Action FloorNowHasEnemies;
     public static event Action FloorIsNowEmpty;
 
@@ -55,13 +56,19 @@ public class Floor : MonoBehaviour
         }
         grid = new Grid(lastFloor);
         grid.path.DrawPath(enemyPathRenderer);
+        
+
+
+        
+        
+        
 
         if (this.floorNumber == 0)
         {
             //Is first floor, use spawner instead of stair up
             PlaceStairsDown(false);
             PlaceEnemySpawner();
-
+            PlaceClutter();
         }
         else if (this.floorNumber == maxFloors - 1)
         {
@@ -73,9 +80,32 @@ public class Floor : MonoBehaviour
         {
             //standard floor, place stairs up and down.
             PlaceStairsDown(true);
+            PlaceClutter();
         }
 
     }
+
+
+    void PlaceClutter()
+    {
+        /* Populate the empty space in the floor with random dungeon clutter. */
+        (List<Vector3>, List<Vector2>) cellData = grid.PopulateGrid();
+        List<Vector3> cellsInWorldSpace = cellData.Item1;
+        List<Vector2> cells = cellData.Item2;
+        for (int i = 0; i < cells.Count; i++)
+        {
+            int type = Random.Range(0, 5);
+
+            GameObject clutter = Instantiate(clutterPrefab, cellsInWorldSpace[i], Quaternion.identity, transform.GetChild(3));
+            clutter.transform.GetChild(type).gameObject.SetActive(true);
+            clutter.transform.localPosition = new Vector3(clutter.transform.localPosition.x, 0.5f, clutter.transform.localPosition.z);
+
+            grid.SetCellOccupant(cells[i], clutter);
+        }
+    }
+
+
+
 
     void PlaceStairsDown(bool placeUpwardsToo)
     {

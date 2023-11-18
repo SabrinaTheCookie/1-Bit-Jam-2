@@ -11,7 +11,7 @@ public class Grid
     private const float GRIDSIZE = 1;
     public const float ENEMY_HEIGHT_OFFSET = 0f;
     public Path path;
-
+    public List<Vector2> bannedCells = new List<Vector2>();
 
     public Grid(bool lastFloor)
     {
@@ -37,6 +37,8 @@ public class Grid
                 GameObject occupant = null;
 
                 cellPositions.Add(cell, occupant);
+                //Debug.Log(column + " " + row + " " + cell + " " + bannedCells.Count);
+                if (column == -1 || column >= 10 || row == -1 || row >= 10) { bannedCells.Add(cell); }
                 //Debug.Log(cell);
                 xOffset += GRIDSIZE;
             }
@@ -48,9 +50,37 @@ public class Grid
 
 
 
-    public void PopulateGrid()
+    public (List<Vector3>, List<Vector2>) PopulateGrid()
     {
+        List<Vector2> cells = new List<Vector2>();
+        List<Vector3> cellsInWorldSpace = new List<Vector3>();
 
+        foreach (var cell in cellPositions)
+        {
+            if (path.positions.Contains(cell.Key) || bannedCells.Contains(cell.Key) || GetCellOccupant(cell.Key) != null)
+            {
+                continue;
+            }
+            else
+            {
+                int firstRoll = Random.Range(0, 100);
+                if (firstRoll < 50) { continue; }
+                else
+                {
+                    int secondRoll = Random.Range(0, 100);
+                    if (secondRoll < 50) { continue; }
+                    else
+                    {
+                        cells.Add(cell.Key);
+
+                        Vector3 cellInWorldSpace = ConvertGridToClutterPosition(cell.Key);
+                        cellsInWorldSpace.Add(cellInWorldSpace);
+                    }
+                }
+            }
+        }
+
+        return (cellsInWorldSpace, cells);
     }
 
 
@@ -103,6 +133,16 @@ public class Grid
         float x = gridPosition.x - 4.5f;
         float y = gridPosition.y - 4.5f;
         Vector3 worldPosition = new Vector3(x, ENEMY_HEIGHT_OFFSET, y);
+
+        return worldPosition;
+    }
+
+
+    public static Vector3 ConvertGridToClutterPosition(Vector2 gridPosition)
+    {
+        float x = gridPosition.x - 4.5f;
+        float y = gridPosition.y - 4.5f;
+        Vector3 worldPosition = new Vector3(x, 0.5f, y);
 
         return worldPosition;
     }

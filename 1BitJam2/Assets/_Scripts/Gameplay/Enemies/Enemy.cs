@@ -22,6 +22,7 @@ public class Enemy : MonoBehaviour
 
     public Floor currentFloor;
     public Vector2 currentPosition;
+    public Vector3 previousPosition;
     bool advancing = true;
     bool alive = true;
     public int maxJumpAttempts;
@@ -84,6 +85,11 @@ public class Enemy : MonoBehaviour
         soulsOnDeath = data.soulsOnDeath;
         meshFilter.mesh = data.mesh;
         meshFilter.gameObject.transform.localScale *= data.meshScalar;
+
+        /* Face in the direction the Enemy is heading. */
+        Vector3 direction = transform.position - previousPosition;
+        transform.forward = -direction;
+        previousPosition = transform.position;
     }
 
 
@@ -201,6 +207,11 @@ public class Enemy : MonoBehaviour
 
         // Change position in world
         transform.localPosition = Grid.ConvertGridToWorldPosition(currentPosition);
+        
+        /* Face in the direction the Enemy is heading. */
+        Vector3 direction = transform.position - previousPosition;
+        transform.forward = -direction;
+        previousPosition = transform.position;
 
         currentFloor.grid.SetCellOccupant(currentPosition, gameObject);
     }
