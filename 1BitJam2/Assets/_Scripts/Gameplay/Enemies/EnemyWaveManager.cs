@@ -14,7 +14,7 @@ public class EnemyWaveManager : MonoBehaviour
     public EnemySpawner enemySpawner;
 
     [Min(1)]
-    public int waveNumber;
+    public int waveNumber = 1;
     public List<Enemy> enemiesRemaining;
 
     [FormerlySerializedAs("minimumSquadSize")] public int startingSquadSize = 4;

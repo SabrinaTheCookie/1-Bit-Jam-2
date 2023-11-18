@@ -12,6 +12,7 @@ public class MenuInitManager : MonoBehaviour
     public CanvasGroup mainCanvas;
 
     private bool finishedRenderingIntroduction = false;
+    bool mainMenuShown;
 
     public void Start()
     {
@@ -22,7 +23,7 @@ public class MenuInitManager : MonoBehaviour
     {
         if (Input.GetKeyUp(KeyCode.Space))
         {
-            if (finishedRenderingIntroduction)
+            if (finishedRenderingIntroduction &! mainMenuShown)
             {
                 AudioManager.Instance.PlaySound("UiBlip");
                 StartCoroutine(ShowMainMenu());
@@ -57,6 +58,7 @@ public class MenuInitManager : MonoBehaviour
 
     public IEnumerator ShowMainMenu()
     {
+        mainMenuShown = true;
         screenDraw.ResetScanLines();
         screenDraw.StartScanDraw();
 
