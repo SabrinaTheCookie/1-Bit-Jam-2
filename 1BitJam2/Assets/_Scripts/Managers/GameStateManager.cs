@@ -19,6 +19,7 @@ public class GameStateManager : Singleton<GameStateManager>
     private GameState gameState;
     
     public event Action OnGameOver;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -64,8 +65,13 @@ public class GameStateManager : Singleton<GameStateManager>
             UpdateGameState(null, 0, 0, true); 
         }
 
-        
-        PauseGame();
+        gameObject.GetComponent<PhaseController>().enabled = false;
+        gameObject.GetComponent<BuildPhase>().enabled = false;
+        gameObject.GetComponent<ActionPhase>().enabled = false;
+        gameObject.GetComponent<EnemyWaveManager>().enabled = false;
+
+        Time.timeScale = 1.0f;
+        //PauseGame();
         OnGameOver?.Invoke();
     }
 
@@ -95,6 +101,11 @@ public class GameStateManager : Singleton<GameStateManager>
     public GameState GetGameState()
     {
         return gameState;
+    }
+
+    public void DestroyMe()
+    {
+        Destroy(gameObject);
     }
 
 }
