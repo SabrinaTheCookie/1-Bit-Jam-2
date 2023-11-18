@@ -116,7 +116,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2059616270539170549
 Transform:
   m_ObjectHideFlags: 0
@@ -428,6 +428,8 @@ MonoBehaviour:
   enemyPathRenderer: {fileID: 7833424222327628970}
   floorManager: {fileID: 0}
   lastFloor: 0
+  clutterPrefab: {fileID: 8101990967695777070, guid: 5423e5cd6be4c0b4aa6076cb125d4bea,
+    type: 3}
 --- !u!114 &2997872951820439254
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -6,7 +6,7 @@
             {
                 "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
                 "key": "buildOutputDirList",
-                "value": "{\"m_Value\":\"E:/Game Development/23_11_1BitJam2/1-Bit-Jam-2/builds/Crypt Fiends;E:/Game Development/23_11_1BitJam2/1-Bit-Jam-2/builds/CF-231711;;;;;;;;\"}"
+                "value": "{\"m_Value\":\"D:/1bitJam/1-Bit-Jam-2/1BitJam2/BalancePatch;D:/1bitJam/1-Bit-Jam-2/1BitJam2/Final;D:/1bitJam/1-Bit-Jam-2/1BitJam2/Build;E:/Game Development/23_11_1BitJam2/1-Bit-Jam-2/builds/Crypt Fiends;E:/Game Development/23_11_1BitJam2/1-Bit-Jam-2/builds/CF-231711;;;;;\"}"
             }
         ]
     }
